@@ -1,0 +1,62 @@
+header {
+  margin: 40px;
+  font-size: 1.75em;
+  text-shadow: 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.board-row {
+  display: grid;
+  grid-auto-columns: minmax(40%, 70%);
+  grid-column-gap: 10vw;
+  justify-content: center;
+  margin: 20px;
+}
+.board {
+  position: relative;
+  min-height: 100px;
+  padding: 10px;
+  margin-top: 40px;
+  border-radius: 10px;
+  background-color: #40115f;
+  grid-area: 1;
+  font-size: 1.15em;
+  flex-direction: column;
+}
+.board-title {
+  position: absolute;
+  top: -40px;
+  padding: 0 15px;
+  border-radius: 5px;
+  background: linear-gradient(#fcd843, #fcd843 50%, #feb31a 50.01%, #feb31a);
+  border: solid 5px #ef7426;
+  text-shadow: -1px -1px 0 #646464, 1px -1px 0 #646464, -1px 1px 0 #646464,
+    2px 2px 0 #646464;
+}
+.board-contents {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.board-button {
+  background-color: #9a49aa;
+  margin: 5px 0px;
+  padding: 5px;
+  border-radius: 7px;
+  transition: background-color 0.2s;
+}
+.board-button:hover {
+  cursor: pointer;
+  background-color: #7b3a88;
+}
+.gamemode-container {
+  width: 90%;
+  height: 100%;
+}
+.gamemode-container img {
+  width: 270px;
+  transition-duration: 0.2s;
+}
+.gamemode-container img:hover {
+  transform: scale(1.1);
+}

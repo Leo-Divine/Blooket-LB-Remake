@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+}
+body {
+  font-family: Nunito;
+  color: white;
+  overflow-x: hidden;
+}
+
+h1, h2 {
+  font-family: Titan One;
+  font-weight: 400;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex.h-center {
+  justify-content: center;
+}
+.flex.v-center {
+  align-items: center;
+}
+.flex.between {
+  justify-content: space-between;
+}
+
+.scrollable {
+  overflow-y: scroll;
+}
+.board-contents.scrollable {
+  max-height: 200px;
+}
