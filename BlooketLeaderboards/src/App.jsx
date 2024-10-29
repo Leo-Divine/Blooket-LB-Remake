@@ -11,6 +11,7 @@ import cafeLogo from "./assets/game_logos/Cafe_Logo.webp";
 import crazyKingdomLogo from "./assets/game_logos/Crazy_Kingdom_Logo.webp";
 import statsLogo from "./assets/game_logos/Stats_Logo.png";
 import flappyBlookLogo from "./assets/game_logos/Flappy_Blook_Logo.png";
+import BElite from "./assets/B-Elite.png";
 
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
@@ -123,9 +124,6 @@ export function Gamemodes() {
               <a href="/gamemodes/stats">
                 <img src={statsLogo} alt="Stats Logo"></img>
               </a>
-              <a href="/gamemodes/flappy-blook">
-                <img src={flappyBlookLogo} alt="Flappy Blook Logo"></img>
-              </a>
             </div>
           </div>
         </div>
@@ -143,7 +141,11 @@ export function GamemodePage() {
     getGamemode(params.gamemode).then((r) => {
 
       //Get Header Value & Gamemode Info
-      const header_text = firstUpperCase(r.gamemode);
+      const header_array = r.gamemode.split("-");
+      let header_text = "";
+      for(let i = 0; i < header_array.length; i++) {
+        header_text += firstUpperCase(header_array[i]) + " ";
+      }
       const gamemode_info = r.info;
 
       //Get Leaderboards
@@ -257,7 +259,10 @@ export function LeaderboardPage() {
             score = score.slice(0, 10);
           }
           
-          const blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+          let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+          if(data.stats.blook == "Elite") {
+            blook_image = BElite;
+          }
           leaderboardElements.push(
             <>
               <tr id={data.user.display_name} key={data.user.display_name}>
