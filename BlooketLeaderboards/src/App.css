@@ -11,6 +11,9 @@ header {
   justify-content: center;
   margin: 20px;
 }
+.board-row:has(.board.leaderboard) {
+  grid-auto-columns: 100%;
+}
 .board {
   position: relative;
   min-height: 100px;
@@ -21,6 +24,9 @@ header {
   grid-area: 1;
   font-size: 1.15em;
   flex-direction: column;
+}
+.board.leaderboard {
+  padding:0;
 }
 .board-title {
   position: absolute;
@@ -59,4 +65,32 @@ header {
 }
 .gamemode-container img:hover {
   transform: scale(1.1);
+}
+
+.lb {
+  width: 100%;
+  overflow-x: scroll;
+}
+.lb-table {
+  width: 100%;
+  border-radius: 10px;
+}
+.lb-table td {
+  margin: 3px;
+}
+.lb-table thead td {
+  background-color: #9a49aa;
+  text-align: center;
+  font-size: 0.9em;
+}
+.lb-table .lb-lock {
+  position: sticky;
+  z-index: 2;
+  left: 0;
+}
+.lb-table .lb-top-left {
+  border-top-left-radius: 10px;
+}
+.lb-table .lb-top-right {
+  border-top-right-radius: 10px;
 }

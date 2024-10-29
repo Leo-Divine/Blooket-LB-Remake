@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './App.css';
 
@@ -134,13 +135,113 @@ export function Gamemodes() {
 }
 
 export function GamemodePage() {
+  //Get Gamemode
   let params = useParams();
-  console.log(params.gamemode);
-  const data = getGamemode(params.gamemode);
-  console.log(data);
+
+  const [boards, setBoards] = useState([]);
+  useEffect(() => {
+    getGamemode(params.gamemode).then((r) => {
+
+      //Get Header Value & Gamemode Info
+      const header_text = firstUpperCase(r.gamemode);
+      const gamemode_info = r.info;
+
+      //Get Leaderboards
+      console.log(r.leaderboards);
+      const leaderboardElements = [];
+      for (let i = 0; i < r.leaderboards.length; i++) {
+        const leaderboard = r.leaderboards[i];
+        leaderboardElements.push(
+          <>
+            <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
+              <p>{leaderboard.icon}</p>
+              <h2>{leaderboard.name}</h2>
+            </div>
+          </>
+        );
+      }
+      console.log(leaderboardElements);
+
+      let response = {
+        header: header_text,
+        info: gamemode_info,
+        leaderboards: leaderboardElements
+      };
+      setBoards(response);
+    });
+  }, [boards, params]);
+
   return (
     <>
-      <p>hi</p>
+      <header className="text-center">
+        <h1>{boards.header}</h1>
+      </header>
+      <main>
+        <div className="board-row">
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Leaderboards</h2>
+            </div>
+            <div className="board-contents scrollable">
+              {boards.leaderboards}
+            </div>
+          </div>
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Info</h2>
+            </div>
+            <p>{boards.info}</p>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function LeaderboardPage() {
+  console.log(getUsers());
+  return (
+    <>
+      <header className="text-center">
+        <h1>Blank</h1>
+      </header>
+      <main>
+        <div className="board-row">
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Info</h2>
+            </div>
+          </div>
+        </div>
+        <div className="board-row">
+          <div className="board leaderboard flex v-center">
+            <div className="board-title">
+              <h2>Ranking</h2>
+            </div>
+            <div className="lb">
+              <table className="lb-table">
+                <thead>
+                  <tr>
+                    <td className="lb-top-left">
+                      <h2>#</h2>
+                    </td>
+                    <td className="lb-lock">
+                      <h2>Person</h2>
+                    </td>
+                    <td>
+                      <h2>Score</h2>
+                    </td>
+                    <td className="lb-top-right">
+                      <h2>Username</h2>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
     </>
   );
 }
@@ -148,7 +249,7 @@ export function GamemodePage() {
 export function PrivacyPolicy() {
   return (
     <>
-      <div style={{color: 'black'}}>
+      <div style={{ color: 'black' }}>
         <h1> Privacy Policy for Blooket Leaderboards </h1>
         <h3> This Privacy Policy describes the information collected, how it is used and protected, and your privacy rights. </h3>
         <p> Last Updated: 27 October 2024 </p>
@@ -283,12 +384,37 @@ export function PrivacyPolicy() {
   );
 }
 
-async function getGamemode(gamemode) {
+async function getGamemode(g) {
+  const { data, error } = await supabase.from('Leaderboards').select();
+
+  if (error) {
+    console.error(error);
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].gamemode != g) {
+        break;
+      }
+      return data[i];
+    }
+  }
+  return;
+}
+
+async function getUsers() {
   const { data, error } = await supabase.from('Users').select();
+
   if (error) {
     console.error(error);
   } else {
     return data;
   }
   return;
+}
+
+function selectLeaderboard(gamemode, path) {
+  window.location.href = `/gamemodes/${gamemode}/${path}`;
+}
+
+function firstUpperCase(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }

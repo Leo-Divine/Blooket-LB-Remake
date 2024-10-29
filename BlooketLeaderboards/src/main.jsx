@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavBar } from './Navagation.jsx';
 import { Background } from './Background.jsx';
-import { App, Gamemodes, GamemodePage, PrivacyPolicy } from './App.jsx';
+import { App, Gamemodes, GamemodePage, LeaderboardPage, PrivacyPolicy } from './App.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -39,7 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/gamemodes/:gamemode/:leaderboard",
     action: ({ params }) => { },
-    element: <App />,
+    element: <>
+    <Background />
+    <LeaderboardPage />
+  </>,
   },
   {
     path: "/submissions",
