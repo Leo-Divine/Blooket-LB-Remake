@@ -154,7 +154,7 @@ export function GamemodePage() {
         leaderboardElements.push(
           <>
             <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
-              <p>{leaderboard.icon}</p>
+              <img src={leaderboard.icon} alt={leaderboard.icon}></img>
               <h2>{leaderboard.name}</h2>
             </div>
           </>
@@ -174,7 +174,7 @@ export function GamemodePage() {
   return (
     <>
       <header className="text-center">
-        <h1>{boards.header}</h1>
+        <h1>{boards.header} Leaderboards</h1>
       </header>
       <main>
         <div className="board-row">
@@ -215,65 +215,76 @@ export function LeaderboardPage() {
           if (user_stats.hasOwnProperty(leaderboard.path)) {
             const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
 
-            //Format the score
+            //Unformat Score
             let temp;
-            if (leaderboard.type == 3) {
+            if (leaderboard.type == "Date") {
               temp = score.substring(0, 10);
-              temp = temp.replace(/-/gi, "");
+              temp = temp.replaceAll("-", "");
             } else {
               temp = score;
-              if (leaderboard.type == 2) {
-                temp = temp.replace(/:/gi, "");
+              if (leaderboard.type == "Time") {
+                temp = temp.replaceAll(":", "");
+                temp = temp.replaceAll(".", "");
               }
             }
             temp = temp + (0.0001 * count);
+            
 
-            //console.log(`Formatted Score: ${temp}`);
             scoreArray.push(temp);
-            userMap.set(scoreArray[count], user);
+            userMap.set(scoreArray[count], { user: user, stats: user_stats });
           }
 
           count++;
         });
 
-        //Sort the scores
-        if (leaderboard.type == 2 || leaderboard.type == 3) {
+        //Sort Scores
+        if (leaderboard.type == "Time" || leaderboard.type == "Date") {
           scoreArray = scoreArray.sort(function (a, b) { return a - b });
         } else {
           scoreArray = scoreArray.sort(function (a, b) { return b - a });
         }
 
-        //Make the table
+        //Make Table
         const leaderboardElements = [];
 
         for (let i = 0; i < scoreArray.length; i++) {
-          const user = userMap.get(scoreArray[i]);
-          const blook_image = `https://ac.blooket.com/marketassets/blooks/${(user.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+          const data = userMap.get(scoreArray[i]);
+
+          let score = Object.getOwnPropertyDescriptor(data.stats, leaderboard.path).value;
+
+          //Format Score
+          if(leaderboard.type == "Date") {
+            score = score.slice(0, 10);
+          }
+          
+          const blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
           leaderboardElements.push(
             <>
-              <tr id={user.display_name} key={user.display_name}>
+              <tr id={data.user.display_name} key={data.user.display_name}>
                 <td>
                   <h2>{i + 1}.</h2>
                 </td>
                 <td className="lb-lock">
                   <div className="flex nowrap v-center">
-                    <img src={blook_image} alt={user.blooket_stats.blook}></img>
-                    <p>{user.display_name}</p>
+                    <img src={blook_image} alt={data.stats.blook}></img>
+                    <p>{data.user.display_name}</p>
                   </div>
                 </td>
                 <td>
-                  <p>{scoreArray[i]}</p>
+                  <p>{score.toLocaleString()}</p>
                 </td>
                 <td>
-                  <p>{user.blooket_stats.name}</p>
+                  <p>{data.stats.name}</p>
                 </td>
               </tr>
             </>
           );
         }
+
         let response = {
           header: leaderboard.title,
           info: leaderboard.desc,
+          type: leaderboard.type,
           scores: leaderboardElements
         };
 
@@ -312,7 +323,7 @@ export function LeaderboardPage() {
                       <h2>Person</h2>
                     </td>
                     <td>
-                      <h2>Score</h2>
+                      <h2>{state.type}</h2>
                     </td>
                     <td className="lb-top-right">
                       <h2>Username</h2>
@@ -475,9 +486,11 @@ async function getGamemode(g) {
   if (error) {
     console.error(error);
   } else {
+
     for (let i = 0; i < data.length; i++) {
+      console.log(data[i]);
       if (data[i].gamemode != g) {
-        break;
+        continue;
       }
       return data[i];
     }
@@ -496,7 +509,7 @@ async function getLeaderboard(g, p) {
   //get gamemode
   for (let i = 0; i < data.length; i++) {
     if (data[i].gamemode != g) {
-      break;
+      continue;
     }
     gamemode = data[i].leaderboards;
   }
@@ -504,7 +517,7 @@ async function getLeaderboard(g, p) {
   //get lb
   for (let i = 0; i < gamemode.length; i++) {
     if (gamemode[i].path != p) {
-      break;
+      continue;
     }
     return gamemode[i];
   }
@@ -527,4 +540,20 @@ function selectLeaderboard(gamemode, path) {
 
 function firstUpperCase(val) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+function formatScore(score, type) {
+  let temp;
+  if (type == "Date") {
+    temp = Math.trunc(score).toString();
+    temp = temp.slice(0, 4) + "-" + temp.slice(4, 6) + "-" + temp.slice(6);
+    return temp.substring(0, temp.length - 1);
+  }
+  if (type == "Time") {
+    const zeroPad = (num, places) => String(num).padStart(places, '0');
+
+    temp = zeroPad(Math.trunc(score).toString(), 8);
+    return `${temp.slice(0, 2)}:${temp.slice(2, 4)}:${temp.slice(4, 6)}.${temp.slice(6)}`;
+  }
+  score = Math.trunc();
 }
