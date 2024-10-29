@@ -212,17 +212,17 @@ export function LeaderboardPage() {
         users.forEach((user) => {
           const user_stats = { ...user.blooket_runs, ...user.blooket_stats }; //Combine stats and runs
 
-          if(user_stats.hasOwnProperty(leaderboard.path)) {
+          if (user_stats.hasOwnProperty(leaderboard.path)) {
             const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
 
             //Format the score
             let temp;
-            if(leaderboard.type == 3) {
+            if (leaderboard.type == 3) {
               temp = score.substring(0, 10);
               temp = temp.replace(/-/gi, "");
             } else {
               temp = score;
-              if(leaderboard.type == 2) {
+              if (leaderboard.type == 2) {
                 temp = temp.replace(/:/gi, "");
               }
             }
@@ -245,18 +245,42 @@ export function LeaderboardPage() {
 
         //Make the table
         const leaderboardElements = [];
-        for(let i = 0; i < scoreArray.length; i++) {
+        for (let i = 0; i < scoreArray.length; i++) {
           const user = userMap.get(scoreArray[i]);
-          console.log(user);
+          leaderboardElements.push(
+            <>
+              <tr id={user.display_name} key={user.display_name}>
+                <td>
+                  <h2>{i + 1}.</h2>
+                </td>
+                <td className="lb-lock">
+                  <p>{user.display_name}</p>
+                </td>
+                <td>
+                  <p>{scoreArray[i]}</p>
+                </td>
+                <td>
+                  <p>{user.blooket_stats.name}</p>
+                </td>
+              </tr>
+            </>
+          );
         }
+        let response = {
+          header: leaderboard.title,
+          info: leaderboard.desc,
+          scores: leaderboardElements
+        };
+
+        setState(response);
       });
     });
   }, [state, params]);
-  
+
   return (
     <>
       <header className="text-center">
-        <h1>Blank</h1>
+        <h1>{state.header}</h1>
       </header>
       <main>
         <div className="board-row">
@@ -264,6 +288,7 @@ export function LeaderboardPage() {
             <div className="board-title">
               <h2>Info</h2>
             </div>
+            <p>{state.info}</p>
           </div>
         </div>
         <div className="board-row">
@@ -290,7 +315,7 @@ export function LeaderboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-
+                  {state.scores}
                 </tbody>
               </table>
             </div>
@@ -458,7 +483,7 @@ async function getGamemode(g) {
 async function getLeaderboard(g, p) {
   const { data, error } = await supabase.from('Leaderboards').select();
 
-  if(error) {
+  if (error) {
     console.error(error);
     return;
   }

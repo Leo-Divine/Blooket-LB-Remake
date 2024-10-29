@@ -74,6 +74,7 @@ header {
 .lb-table {
   width: 100%;
   border-radius: 10px;
+  font-size: 1.25em;
 }
 .lb-table td {
   margin: 3px;
@@ -81,12 +82,15 @@ header {
 .lb-table thead td {
   background-color: #9a49aa;
   text-align: center;
-  font-size: 0.9em;
+  font-size: 0.70em;
 }
 .lb-table .lb-lock {
   position: sticky;
   z-index: 2;
   left: 0;
+}
+.lb-table tbody .lb-lock {
+  background-color:#40115f;
 }
 .lb-table .lb-top-left {
   border-top-left-radius: 10px;
