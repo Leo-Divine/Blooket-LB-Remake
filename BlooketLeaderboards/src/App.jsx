@@ -16,9 +16,6 @@ import BElite from "./assets/B-Elite.png";
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
 
-const { data, error } = await supabase.from('Users').select();
-console.log(data);
-
 export function App() {
   return (
     <>
