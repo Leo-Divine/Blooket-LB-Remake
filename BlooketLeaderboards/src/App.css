@@ -74,7 +74,10 @@ header {
 .lb-table {
   width: 100%;
   border-radius: 10px;
+}
+.lb-table p {
   font-size: 1.25em;
+  white-space: nowrap;
 }
 .lb-table td {
   margin: 3px;
@@ -82,7 +85,7 @@ header {
 .lb-table thead td {
   background-color: #9a49aa;
   text-align: center;
-  font-size: 0.70em;
+  font-size: 0.9em;
 }
 .lb-table .lb-lock {
   position: sticky;
@@ -97,4 +100,8 @@ header {
 }
 .lb-table .lb-top-right {
   border-top-right-radius: 10px;
+}
+.lb-table img {
+  width: 50px;
+  margin-right: 5px;
 }

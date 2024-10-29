@@ -20,6 +20,9 @@ h1, h2 {
   display: flex;
   flex-wrap: wrap;
 }
+.flex.nowrap {
+  flex-wrap: nowrap;
+}
 .flex.h-center {
   justify-content: center;
 }

@@ -245,8 +245,10 @@ export function LeaderboardPage() {
 
         //Make the table
         const leaderboardElements = [];
+
         for (let i = 0; i < scoreArray.length; i++) {
           const user = userMap.get(scoreArray[i]);
+          const blook_image = `https://ac.blooket.com/marketassets/blooks/${(user.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
           leaderboardElements.push(
             <>
               <tr id={user.display_name} key={user.display_name}>
@@ -254,7 +256,10 @@ export function LeaderboardPage() {
                   <h2>{i + 1}.</h2>
                 </td>
                 <td className="lb-lock">
-                  <p>{user.display_name}</p>
+                  <div className="flex nowrap v-center">
+                    <img src={blook_image} alt={user.blooket_stats.blook}></img>
+                    <p>{user.display_name}</p>
+                  </div>
                 </td>
                 <td>
                   <p>{scoreArray[i]}</p>
