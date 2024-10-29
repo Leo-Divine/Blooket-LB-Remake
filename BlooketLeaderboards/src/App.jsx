@@ -199,7 +199,60 @@ export function GamemodePage() {
 }
 
 export function LeaderboardPage() {
-  console.log(getUsers());
+  let params = useParams();
+  const [state, setState] = useState([]);
+
+  useEffect(() => {
+    getLeaderboard(params.gamemode, params.leaderboard).then((leaderboard) => {
+      getUsers().then((users) => {
+        //Add all scores to a list and a map
+        let scoreArray = [];
+        const userMap = new Map();
+        let count = 0;
+        users.forEach((user) => {
+          const user_stats = { ...user.blooket_runs, ...user.blooket_stats }; //Combine stats and runs
+
+          if(user_stats.hasOwnProperty(leaderboard.path)) {
+            const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
+
+            //Format the score
+            let temp;
+            if(leaderboard.type == 3) {
+              temp = score.substring(0, 10);
+              temp = temp.replace(/-/gi, "");
+            } else {
+              temp = score;
+              if(leaderboard.type == 2) {
+                temp = temp.replace(/:/gi, "");
+              }
+            }
+            temp = temp + (0.0001 * count);
+
+            //console.log(`Formatted Score: ${temp}`);
+            scoreArray.push(temp);
+            userMap.set(scoreArray[count], user);
+          }
+
+          count++;
+        });
+
+        //Sort the scores
+        if (leaderboard.type == 2 || leaderboard.type == 3) {
+          scoreArray = scoreArray.sort(function (a, b) { return a - b });
+        } else {
+          scoreArray = scoreArray.sort(function (a, b) { return b - a });
+        }
+
+        //Make the table
+        const leaderboardElements = [];
+        for(let i = 0; i < scoreArray.length; i++) {
+          const user = userMap.get(scoreArray[i]);
+          console.log(user);
+        }
+      });
+    });
+  }, [state, params]);
+  
   return (
     <>
       <header className="text-center">
@@ -236,7 +289,9 @@ export function LeaderboardPage() {
                     </td>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+
+                </tbody>
               </table>
             </div>
           </div>
@@ -398,6 +453,31 @@ async function getGamemode(g) {
     }
   }
   return;
+}
+
+async function getLeaderboard(g, p) {
+  const { data, error } = await supabase.from('Leaderboards').select();
+
+  if(error) {
+    console.error(error);
+    return;
+  }
+  let gamemode;
+  //get gamemode
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].gamemode != g) {
+      break;
+    }
+    gamemode = data[i].leaderboards;
+  }
+
+  //get lb
+  for (let i = 0; i < gamemode.length; i++) {
+    if (gamemode[i].path != p) {
+      break;
+    }
+    return gamemode[i];
+  }
 }
 
 async function getUsers() {
