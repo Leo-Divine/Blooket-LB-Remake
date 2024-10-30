@@ -29,13 +29,19 @@ h1, h2 {
 .flex.v-center {
   align-items: center;
 }
+.flex.around {
+  justify-content: space-around;
+}
 .flex.between {
   justify-content: space-between;
+}
+.flex.column {
+  flex-direction: column;
 }
 
 .scrollable {
   overflow-y: scroll;
 }
 .board-contents.scrollable {
-  max-height: 200px;
+  max-height: 250px;
 }

@@ -146,20 +146,19 @@ export function GamemodePage() {
       const gamemode_info = r.info;
 
       //Get Leaderboards
-      console.log(r.leaderboards);
       const leaderboardElements = [];
       for (let i = 0; i < r.leaderboards.length; i++) {
         const leaderboard = r.leaderboards[i];
+        const icon_source = `/src/assets/icons/${leaderboard.icon}.png`;
         leaderboardElements.push(
           <>
             <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
-              <img src={leaderboard.icon} alt={leaderboard.icon}></img>
+              <img src={icon_source} alt={leaderboard.icon}></img>
               <h2>{leaderboard.name}</h2>
             </div>
           </>
         );
       }
-      console.log(leaderboardElements);
 
       let response = {
         header: header_text,
@@ -229,7 +228,6 @@ export function LeaderboardPage() {
               }
             }
             temp = temp + (0.0001 * count);
-
 
             scoreArray.push(temp);
             userMap.set(scoreArray[count], { user: user, stats: user_stats });
@@ -340,6 +338,127 @@ export function LeaderboardPage() {
                   {state.scores}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function Account() {
+  let params = useParams();
+  const param_user = params.user;
+  const current_user_data = JSON.parse(localStorage.getItem("sb-ughstfzbqkwwurstknii-auth-token"));
+
+  const [state, setState] = useState([]);
+
+  useEffect(() => {
+    let selected_user;
+    if (param_user) {
+      selected_user = param_user;
+    } else if (current_user_data) {
+      selected_user = current_user_data.user.user_metadata.user_name;
+    } else {
+      //setState(<LoginRedirect />);
+      return;
+    }
+
+    getUser(selected_user).then((selected_user_data) => {
+      //console.log(selected_user_data);
+      const header_elements = [];
+
+      //Account Header
+      let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+      if (selected_user_data.blooket_stats.blook == "Elite") {
+        blook_image = BElite;
+      }
+      header_elements.push(
+        <>
+          <div className="board-row">
+            <div className="board account-header flex v-center">
+              <img src={blook_image} alt="blook"></img>
+              <div className="flex column">
+                <h2>{selected_user_data.display_name}</h2>
+                <p>{selected_user_data.blooket_stats.name}</p>
+                <p>{selected_user_data.created_at}</p>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+
+      //Stats and Runs
+      const stat_elements = [];
+      const stats = selected_user_data.blooket_stats;
+      const stats_array = Object.keys(stats);
+      const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
+
+      for (let i = 0; i < stats_array.length; i++) {
+        if (!include.includes(stats_array[i])) {
+          continue;
+        }
+        stat_elements.push(
+          <>
+            <div className="board-stat flex column v-center">
+              <p>{stats_array[i]}</p>
+              <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
+            </div>
+          </>
+        );
+      }
+
+      const runs_elements = [];
+      const runs = selected_user_data.blooket_runs;
+      const runs_array = Object.keys(runs);
+      console.log(runs_array);
+
+      for(let i = 0; i < runs_array.length; i++) {
+        const run_name_array = runs_array[i].split("-");
+      let run_name = "";
+      for (let i = 0; i < run_name_array.length; i++) {
+        run_name += firstUpperCase(run_name_array[i]) + " ";
+      }
+        runs_elements.push(
+          <>
+            <div className="board-button flex between v-center">
+              <h2>{run_name}</h2>
+              <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
+            </div>
+          </>
+        );
+      }
+
+      const response = {
+        header: header_elements,
+        stats: stat_elements,
+        runs: runs_elements
+      };
+
+      setState(response);
+    });
+
+  }, [state, param_user, current_user_data]);
+
+  return (
+    <>
+      <main>
+        {state.header}
+        <div className="board-row">
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Stats</h2>
+            </div>
+            <div className="board-contents flex h-center around scrollable">
+              {state.stats}
+            </div>
+          </div>
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Runs</h2>
+            </div>
+            <div className="board-contents scrollable">
+            {state.runs}
             </div>
           </div>
         </div>
@@ -540,26 +659,25 @@ async function getUsers() {
   return;
 }
 
+async function getUser(user_name) {
+  const { data, error } = await supabase.from('Users').select();
+  if (error) {
+    console.error(error);
+    return;
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].display_name == user_name) {
+        return data[i];
+      }
+    }
+  }
+
+}
+
 function selectLeaderboard(gamemode, path) {
   window.location.href = `/gamemodes/${gamemode}/${path}`;
 }
 
 function firstUpperCase(val) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-}
-
-function formatScore(score, type) {
-  let temp;
-  if (type == "Date") {
-    temp = Math.trunc(score).toString();
-    temp = temp.slice(0, 4) + "-" + temp.slice(4, 6) + "-" + temp.slice(6);
-    return temp.substring(0, temp.length - 1);
-  }
-  if (type == "Time") {
-    const zeroPad = (num, places) => String(num).padStart(places, '0');
-
-    temp = zeroPad(Math.trunc(score).toString(), 8);
-    return `${temp.slice(0, 2)}:${temp.slice(2, 4)}:${temp.slice(4, 6)}.${temp.slice(6)}`;
-  }
-  score = Math.trunc();
 }

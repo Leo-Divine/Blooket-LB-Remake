@@ -28,6 +28,15 @@ header {
 .board.leaderboard {
   padding:0;
 }
+.board.account-header {
+  flex-direction: row;
+}
+.board.account-header > * {
+  margin: 5px;
+}
+.board.account-header > img {
+  width: 100px;
+}
 .board-title {
   position: absolute;
   top: -40px;
@@ -55,6 +64,21 @@ header {
   cursor: pointer;
   background-color: #7b3a88;
 }
+.board-button img {
+  width: 45px;
+  transform: rotate(-15deg);
+  margin-right: 5px;
+}
+.board-stat {
+  background-color: #9a49aa;
+  border-radius: 7px;
+  padding: 5px;
+  box-shadow: inset 0 -6px #803c8c;
+  width: 200px;
+  height: 70px;
+  margin: 5px;
+}
+
 .gamemode-container {
   width: 90%;
   height: 100%;
@@ -117,5 +141,12 @@ header {
   }
   .board {
     margin: 30px 20px;
+  }
+
+  .board.account-header {
+    flex-direction: column;
+  }
+  .board.account-header > div {
+    text-align: center;
   }
 }
