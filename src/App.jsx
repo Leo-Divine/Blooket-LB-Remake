@@ -266,7 +266,7 @@ export function LeaderboardPage() {
                 <td>
                   <h2>{i + 1}.</h2>
                 </td>
-                <td className="lb-lock">
+                <td className="lb-lock" onClick={accountSelect.bind(this, data.user.display_name)}>
                   <div className="flex nowrap v-center">
                     <img src={blook_image} alt={data.stats.blook}></img>
                     <p>{data.user.display_name}</p>
@@ -884,6 +884,10 @@ async function accountSignUp() {
 
 function selectLeaderboard(gamemode, path) {
   window.location.href = `/gamemodes/${gamemode}/${path}`;
+}
+
+function accountSelect(user) {
+  window.location.href = `/account/${user}`;
 }
 
 function firstUpperCase(val) {

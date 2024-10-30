@@ -124,6 +124,7 @@ header {
 }
 .lb-table tbody .lb-lock {
   background-color:#40115f;
+  cursor: pointer;
 }
 .lb-table .lb-top-left {
   border-top-left-radius: 10px;
@@ -155,6 +156,7 @@ header {
 #account-submit, #user-submit {
   width: initial;
   padding: 5px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
