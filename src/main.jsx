@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { NavBar } from './Navagation.jsx';
+import { NavBar, BackNavBar } from './Navagation.jsx';
 import { Background } from './Background.jsx';
 import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, Settings, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
 import './index.css';
@@ -10,6 +10,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <>
+      <NavBar />
       <Background />
       <App />
     </>,
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <>
+      <NavBar />
       <Background />
       <App />
     </>,
@@ -24,6 +26,7 @@ const router = createBrowserRouter([
   {
     path: "/gamemodes",
     element: <>
+      <NavBar />
       <Background />
       <Gamemodes />
     </>,
@@ -32,6 +35,7 @@ const router = createBrowserRouter([
     path: "/gamemodes/:gamemode",
     action: ({ params }) => { },
     element: <>
+      <NavBar />
       <Background />
       <GamemodePage />
     </>,
@@ -40,14 +44,16 @@ const router = createBrowserRouter([
     path: "/gamemodes/:gamemode/:leaderboard",
     action: ({ params }) => { },
     element: <>
-    <Background />
-    <LeaderboardPage />
-  </>,
+      <BackNavBar />
+      <Background />
+      <LeaderboardPage />
+    </>,
   },
   {
     path: "/account",
     action: ({ params }) => { },
     element: <>
+      <NavBar />
       <Background />
       <Account />
       <Settings />
@@ -57,6 +63,7 @@ const router = createBrowserRouter([
     path: "/account/:user",
     action: ({ params }) => { },
     element: <>
+      <NavBar />
       <Background />
       <Account />
     </>,
@@ -64,20 +71,24 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <>
-    <Background />
-    <SignUp />
-  </>,
+      <NavBar />
+      <Background />
+      <SignUp />
+    </>,
   },
   {
     path: "/create-account",
     element: <>
-    <Background />
-    <AccountCreation />
-  </>,
+      <NavBar />
+      <Background />
+      <AccountCreation />
+    </>,
   },
   {
     path: "/privacy-policy",
-    element: <PrivacyPolicy />,
+    element: <>
+      <PrivacyPolicy />
+    </>,
   },
   {
     path: "/events/:event",
@@ -94,7 +105,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <NavBar />
+
     <RouterProvider router={router} />
   </StrictMode>,
 );

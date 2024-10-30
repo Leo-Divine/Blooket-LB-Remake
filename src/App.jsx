@@ -574,6 +574,12 @@ export function SignUp() {
               <input id="username-input" className="inputs" type="text" placeholder="Username"></input>
               <input id="email-input" className="inputs" type="email" placeholder="Email"></input>
               <input id="password-input" className="inputs" type="password" placeholder="Password"></input>
+              <div>
+              <input type="checkbox" id="stats-age"></input>
+              <label htmlFor="stats-age"> I am over the age of 13</label>
+              <input type="checkbox" id="stats-privacy"></input>
+              <label htmlFor="stats-privacy"> I agree to the <a href="/privacy-policy">Privacy Policy</a></label>
+              </div>
               <button id="user-submit" className="inputs" type="submit" onClick={signUpData.bind(this)}>Sign Up</button>
             </div>
           </div>
@@ -627,7 +633,7 @@ export function PrivacyPolicy() {
       <div style={{ color: 'black' }}>
         <h1> Privacy Policy for Blooket Leaderboards </h1>
         <h3> This Privacy Policy describes the information collected, how it is used and protected, and your privacy rights. </h3>
-        <p> Last Updated: 27 October 2024 </p>
+        <p> Last Updated: 30 October 2024 </p>
         <br />
         <h2> Terminology </h2>
         <p> Bolded words have meanings which are described below. </p>
@@ -655,7 +661,7 @@ export function PrivacyPolicy() {
           </li>
           <br />
           <li>
-            <b> Website: </b> refers to Blooket Leaderboards, accessed from <a href="blooket.games"> blooket.games
+            <b> Website: </b> refers to Blooket Leaderboards, accessed from <a href="https://blooket-leaderboards.pages.dev/"> blooket-leaderboards.pages.dev
             </a>.
           </li>
           <br />
@@ -676,7 +682,7 @@ export function PrivacyPolicy() {
           <ul>
             <li> Email Address. </li>
             <br />
-            <li> Your Discord Username </li>
+            <li> Password. </li>
             <br />
             <li> Your <b>Blooket</b> Username. </li>
             <br />
@@ -708,17 +714,19 @@ export function PrivacyPolicy() {
             <br />
             <li> Your <b>Blooket</b> Account's Statistics. </li>
             <br />
+            <li> Your Account's Date of Creation. </li>
+            <br />
             <li> Your <b>Blooket</b> Account's Date of Creation. </li>
           </ul>
           <br />
         </p>
         <h3> What Data is Made Private </h3>
-        <p> <b>Personal Data</b> that can be used to contact <b>You</b> is never shown to the public. This data may
+        <p> <b>Personal Data</b> that can be used to contact or impersonate <b>You</b> is never shown to the public. This data may
           inclide but is not limited to:
           <ul>
-            <li> Your Discord Username </li>
-            <br />
             <li> Your Email Address </li>
+            <br />
+            <li> Your Password </li>
             <br />
             <li> Any Other Data Used to Contact <b>You</b>. </li>
           </ul>
@@ -855,6 +863,8 @@ async function signUpData() {
   const username = document.getElementById("username-input").value;
   const email = document.getElementById("email-input").value;
   const password = document.getElementById("password-input").value;
+  const age_verification = document.getElementById("stats-age");
+  const privacy_verification = document.getElementById("stats-privacy");
 
   if (!username) {
     alert("Please provide a username!");
@@ -866,6 +876,11 @@ async function signUpData() {
   }
   if (!password) {
     alert("Please provide a password!");
+    return;
+  }
+  console.log(privacy_verification.checked);
+  if(!age_verification.checked || !privacy_verification.checked) {
+    alert("Make sure to check all of the boxes!\nPrivacy Policy and Age.");
     return;
   }
 

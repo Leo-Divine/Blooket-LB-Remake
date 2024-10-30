@@ -137,6 +137,9 @@ header {
   margin-right: 5px;
 }
 
+label {
+  margin: 0px 5px;
+}
 .inputs {
   font-size: 1.5em;
   border-radius: 10px;
