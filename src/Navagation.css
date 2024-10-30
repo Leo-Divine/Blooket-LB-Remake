@@ -29,4 +29,7 @@ nav {
   #nav-bar {
     justify-content: center;
   }
+  #nav-bar > a:hover {
+    font-size: 1em;
+  }
 }

@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavBar } from './Navagation.jsx';
 import { Background } from './Background.jsx';
-import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
+import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, Settings, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -50,6 +50,7 @@ const router = createBrowserRouter([
     element: <>
       <Background />
       <Account />
+      <Settings />
     </>,
   },
   {
@@ -62,7 +63,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/sign-up",
-    element: <SignUp />,
+    element: <>
+    <Background />
+    <SignUp />
+  </>,
   },
   {
     path: "/create-account",

@@ -25,6 +25,12 @@ header {
   font-size: 1.15em;
   flex-direction: column;
 }
+.board a {
+  color: darkgrey;
+}
+.board a:visited {
+  color: #959595;
+}
 .board.leaderboard {
   padding:0;
 }
@@ -130,7 +136,7 @@ header {
   margin-right: 5px;
 }
 
-.account-input > * {
+.inputs {
   font-size: 1.5em;
   border-radius: 10px;
   font-family: Titan One;
@@ -138,6 +144,7 @@ header {
   color: white;
   border: none;
   margin: 10px;
+  width: 90%;
 }
 
 #account-stats {
@@ -145,7 +152,8 @@ header {
   height: 50px;
 }
 
-#account-submit {
+#account-submit, #user-submit {
+  width: initial;
   padding: 5px;
 }
 
