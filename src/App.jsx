@@ -764,7 +764,7 @@ async function accountSignUp() {
   const { data: { user } } = await supabase.auth.getUser();
   console.log(user);
 
-  const { error } = await supabase.from('users').insert({ display_name: user.user_metadata.user_name, email: user.email, user_id: user.user_id, created_at: user.created_at, blooket_stats: {}, blooket_id: "1", blooket_runs: {} });
+  const { error } = await supabase.from('Users').insert({ display_name: user.user_metadata.user_name, email: user.email, user_id: user.user_id, created_at: user.created_at, blooket_stats: {}, blooket_id: "1", blooket_runs: {} });
   console.log(error);
 }
 
