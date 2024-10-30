@@ -360,20 +360,20 @@ export function Account() {
     } else if (current_user_data) {
       selected_user = current_user_data.user.user_metadata.user_name;
     } else {
-      //setState(<LoginRedirect />);
+      setState(<LoginRedirect />);
       return;
     }
 
     getUser(selected_user).then((selected_user_data) => {
       //console.log(selected_user_data);
-      const header_elements = [];
+      const elements = [];
 
       //Account Header
       let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
       if (selected_user_data.blooket_stats.blook == "Elite") {
         blook_image = BElite;
       }
-      header_elements.push(
+      elements.push(
         <>
           <div className="board-row">
             <div className="board account-header flex v-center">
@@ -399,26 +399,23 @@ export function Account() {
           continue;
         }
         stat_elements.push(
-          <>
-            <div className="board-stat flex column v-center">
-              <p>{stats_array[i]}</p>
-              <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
-            </div>
-          </>
+          <div className="board-stat flex column v-center">
+            <p>{stats_array[i]}</p>
+            <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
+          </div>
         );
       }
 
       const runs_elements = [];
       const runs = selected_user_data.blooket_runs;
       const runs_array = Object.keys(runs);
-      console.log(runs_array);
 
-      for(let i = 0; i < runs_array.length; i++) {
+      for (let i = 0; i < runs_array.length; i++) {
         const run_name_array = runs_array[i].split("-");
-      let run_name = "";
-      for (let i = 0; i < run_name_array.length; i++) {
-        run_name += firstUpperCase(run_name_array[i]) + " ";
-      }
+        let run_name = "";
+        for (let i = 0; i < run_name_array.length; i++) {
+          run_name += firstUpperCase(run_name_array[i]) + " ";
+        }
         runs_elements.push(
           <>
             <div className="board-button flex between v-center">
@@ -429,13 +426,30 @@ export function Account() {
         );
       }
 
-      const response = {
-        header: header_elements,
-        stats: stat_elements,
-        runs: runs_elements
-      };
+      elements.push(
+        <>
+          <div className="board-row">
+            <div className="board flex v-center">
+              <div className="board-title">
+                <h2>Stats</h2>
+              </div>
+              <div className="board-contents flex h-center around scrollable">
+                {stat_elements}
+              </div>
+            </div>
+            <div className="board flex v-center">
+              <div className="board-title">
+                <h2>Runs</h2>
+              </div>
+              <div className="board-contents scrollable">
+                {runs_elements}
+              </div>
+            </div>
+          </div>
+        </>
+      );
 
-      setState(response);
+      setState(elements);
     });
 
   }, [state, param_user, current_user_data]);
@@ -443,22 +457,71 @@ export function Account() {
   return (
     <>
       <main>
-        {state.header}
+        {state}
+      </main>
+    </>
+  );
+}
+
+function LoginRedirect() {
+  return (
+    <>
+      <header className="text-center">
+        <h1>Accounts</h1>
+      </header>
+      <main>
         <div className="board-row">
           <div className="board flex v-center">
             <div className="board-title">
-              <h2>Stats</h2>
+              <h2>Log In</h2>
             </div>
-            <div className="board-contents flex h-center around scrollable">
-              {state.stats}
+            <div className="board-contents">
+              <a href="/sign-up">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function SignUp() {
+  return (
+    <>
+      <button onClick={userSignUp.bind(this)}></button></>
+  );
+}
+
+export function AccountCreation() {
+  return (
+    <>
+    <header className="text-center">
+        <h1>Almost Done!</h1>
+      </header>
+      <main>
+        <div className="board-row">
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Steps</h2>
+            </div>
+            <div className="board-contents">
+              <h2 className="text-center">Complete these steps to complete your account creation!</h2>
+              <ol type="1">
+                <li>Login to <a href="https://blooket.com" target="_blank">Blooket</a> and come back to this page.</li>
+                <li>Go to this link in a seperate tab: <a href="https://dashboard.blooket.com/api/users" target="_blank">Blooket API</a>.</li>
+                <li>Copy all of the text on the page.</li>
+                <li>Paste the data into the box below that says "Paste Here!".(It's the only light purple box on the page!)</li>
+                <li>Submit! :D</li>
+              </ol>
             </div>
           </div>
           <div className="board flex v-center">
             <div className="board-title">
-              <h2>Runs</h2>
+              <h2>Fill Out</h2>
             </div>
-            <div className="board-contents scrollable">
-            {state.runs}
+            <div className="board-contents flex column v-center account-input">
+              <input id="account-stats" type="text" placeholder="Paste Here!"></input>
+              <button id="account-submit" type="submit" onClick={accountSignUp.bind(this)}>Submit</button>
             </div>
           </div>
         </div>
@@ -671,7 +734,38 @@ async function getUser(user_name) {
       }
     }
   }
+}
 
+async function userSignUp() {
+  /*
+  const username = document.getElementById("username-input").value;
+  const email = document.getElementById("email-input").value;
+  const password = document.getElementById("password-input").value;
+  */
+
+  let { data, error } = await supabase.auth.signUp({
+    email: "test@something.com",
+    password: "supergoodpassword1",
+    options: {
+      shouldCreateUser: false,
+      data: {
+        user_name: "Leonidas",
+      }
+    }
+  });
+  if (error) {
+    console.error(error);
+    return;
+  }
+  window.location.href = "/create-account";
+}
+
+async function accountSignUp() {
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log(user);
+
+  const { error } = await supabase.from('users').insert({ display_name: user.user_metadata.user_name, email: user.email, user_id: user.user_id, created_at: user.created_at, blooket_stats: {}, blooket_id: "1", blooket_runs: {} });
+  console.log(error);
 }
 
 function selectLeaderboard(gamemode, path) {

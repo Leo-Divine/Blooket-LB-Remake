@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavBar } from './Navagation.jsx';
 import { Background } from './Background.jsx';
-import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, PrivacyPolicy } from './App.jsx';
+import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -61,12 +61,19 @@ const router = createBrowserRouter([
     </>,
   },
   {
-    path: "/privacy-policy",
-    element: <PrivacyPolicy />,
+    path: "/sign-up",
+    element: <SignUp />,
   },
   {
-    path: "/rules",
-    element: <App />,
+    path: "/create-account",
+    element: <>
+    <Background />
+    <AccountCreation />
+  </>,
+  },
+  {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />,
   },
   {
     path: "/events/:event",

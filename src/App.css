@@ -130,6 +130,25 @@ header {
   margin-right: 5px;
 }
 
+.account-input > * {
+  font-size: 1.5em;
+  border-radius: 10px;
+  font-family: Titan One;
+  background-color: #9a49aa;
+  color: white;
+  border: none;
+  margin: 10px;
+}
+
+#account-stats {
+  width: 90%;
+  height: 50px;
+}
+
+#account-submit {
+  padding: 5px;
+}
+
 @media screen and (max-width: 768px) {
   header {
     font-size: 5vw;
