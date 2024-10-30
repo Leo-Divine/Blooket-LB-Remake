@@ -140,7 +140,7 @@ export function GamemodePage() {
       //Get Header Value & Gamemode Info
       const header_array = r.gamemode.split("-");
       let header_text = "";
-      for(let i = 0; i < header_array.length; i++) {
+      for (let i = 0; i < header_array.length; i++) {
         header_text += firstUpperCase(header_array[i]) + " ";
       }
       const gamemode_info = r.info;
@@ -189,7 +189,9 @@ export function GamemodePage() {
             <div className="board-title">
               <h2>Info</h2>
             </div>
-            <p>{boards.info}</p>
+            <div className="board-contents">
+              <p>{boards.info}</p>
+            </div>
           </div>
         </div>
       </main>
@@ -227,7 +229,7 @@ export function LeaderboardPage() {
               }
             }
             temp = temp + (0.0001 * count);
-            
+
 
             scoreArray.push(temp);
             userMap.set(scoreArray[count], { user: user, stats: user_stats });
@@ -252,12 +254,12 @@ export function LeaderboardPage() {
           let score = Object.getOwnPropertyDescriptor(data.stats, leaderboard.path).value;
 
           //Format Score
-          if(leaderboard.type == "Date") {
+          if (leaderboard.type == "Date") {
             score = score.slice(0, 10);
           }
-          
+
           let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
-          if(data.stats.blook == "Elite") {
+          if (data.stats.blook == "Elite") {
             blook_image = BElite;
           }
           leaderboardElements.push(
@@ -306,7 +308,9 @@ export function LeaderboardPage() {
             <div className="board-title">
               <h2>Info</h2>
             </div>
-            <p>{state.info}</p>
+            <div className="board-contents">
+              <p>{state.info}</p>
+            </div>
           </div>
         </div>
         <div className="board-row">

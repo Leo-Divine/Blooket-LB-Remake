@@ -24,3 +24,9 @@ nav {
 #nav-bar > a:hover {
   font-size: 1.25em;
 }
+
+@media screen and (max-width: 768px) {
+  #nav-bar {
+    justify-content: center;
+  }
+}

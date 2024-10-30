@@ -105,3 +105,17 @@ header {
   width: 50px;
   margin-right: 5px;
 }
+
+@media screen and (max-width: 768px) {
+  header {
+    font-size: 5vw;
+  }
+  .board-row {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+  }
+  .board {
+    margin: 30px 20px;
+  }
+}

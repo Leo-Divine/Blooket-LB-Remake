@@ -45,13 +45,6 @@ const router = createBrowserRouter([
   </>,
   },
   {
-    path: "/submissions",
-    element: <>
-      <Background />
-      <App />
-    </>,
-  },
-  {
     path: "/settings",
     element: <>
       <Background />
