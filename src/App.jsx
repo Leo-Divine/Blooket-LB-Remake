@@ -419,7 +419,7 @@ export function Account() {
               <div className="flex column">
                 <h2>{selected_user_data.display_name}</h2>
                 <p>{selected_user_data.blooket_stats.name}</p>
-                <p>{selected_user_data.created_at}</p>
+                <p>{selected_user_data.created_at.substring(0, 10)}</p>
               </div>
             </div>
           </div>
