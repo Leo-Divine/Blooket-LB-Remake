@@ -184,13 +184,12 @@ export function GamemodePage() {
     supabase
       .channel('leaderboards')
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
-        const r = update(params.gamemode);
+        update(params.gamemode);
       })
       .subscribe(); //This is here for realtime updates
 
     function update(g) {
       getGamemode(g).then((r) => {
-        console.log("test");
         const header_array = r.gamemode.split("-");
         let header_text = "";
         for (let i = 0; i < header_array.length; i++) {
@@ -260,17 +259,17 @@ export function LeaderboardPage() {
     supabase
       .channel('leaderboard')
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
-        leaderboardUpdate(params.gamemode, params.leaderboard);
+        update(params.gamemode, params.leaderboard);
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
-        leaderboardUpdate(params.gamemode, params.leaderboard);
+        update(params.gamemode, params.leaderboard);
       })
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Users' }, payload => {
-        leaderboardUpdate(params.gamemode, params.leaderboard);
+        update(params.gamemode, params.leaderboard);
       })
       .subscribe(); //This is here for realtime updates
 
-    function leaderboardUpdate(g, p) {
+    function update(g, p) {
       getLeaderboard(g, p).then((leaderboard) => {
         getUsers().then((users) => {
           //Add all scores to a list and a map
@@ -361,7 +360,7 @@ export function LeaderboardPage() {
         });
       });
     }
-    leaderboardUpdate(params.gamemode, params.leaderboard);
+    update(params.gamemode, params.leaderboard);
   }, [params]);
 
   return (
@@ -422,120 +421,118 @@ export function Account() {
   const [state, setState] = useState([]);
 
   let selected_user;
-    if (param_user) {
-      selected_user = param_user;
-    } else if (current_user_data) {
-      selected_user = current_user_data.user.user_metadata.user_name;
-    } 
+  if (param_user) {
+    selected_user = param_user;
+  } else if (current_user_data) {
+    selected_user = current_user_data.user.user_metadata.user_name;
+  }
 
   useEffect(() => {
-    supabase
-      .channel('leaderboards')
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
-        update(selected_user);
-      })
-      .subscribe();
-
-      function update(s) {
-        //Check if user isn't logged in or viewing others profile
-        console.log(s);
-        if(!s) {
-          setState(<LoginRedirect />);
-          return;
-        }
-        
-        //Get data
-        getUser(s).then((selected_user_data) => {
-          const elements = [];
-    
-          //Account Header
-          let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
-          if (selected_user_data.blooket_stats.blook == "Elite") {
-            blook_image = BElite;
-          }
-          elements.push(
-            <>
-              <div className="board-row">
-                <div className="board account-header flex v-center">
-                  <img src={blook_image} alt="blook"></img>
-                  <div className="flex column">
-                    <h2>{selected_user_data.display_name}</h2>
-                    <p>{selected_user_data.blooket_stats.name}</p>
-                    <p>{selected_user_data.created_at.substring(0, 10)}</p>
-                  </div>
-                </div>
-              </div>
-            </>
-          );
-    
-          //Stats and Runs
-          const stat_elements = [];
-          const stats = selected_user_data.blooket_stats;
-          const stats_array = Object.keys(stats);
-          const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
-    
-          for (let i = 0; i < stats_array.length; i++) {
-            if (!include.includes(stats_array[i])) {
-              continue;
-            }
-            stat_elements.push(
-              <div className="board-stat flex column v-center">
-                <p>{stats_array[i]}</p>
-                <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
-              </div>
-            );
-          }
-    
-          const runs_elements = [];
-          const runs = selected_user_data.blooket_runs;
-          const runs_array = Object.keys(runs);
-    
-          for (let i = 0; i < runs_array.length; i++) {
-            const run_name_array = runs_array[i].split("-");
-            let run_name = "";
-            for (let i = 0; i < run_name_array.length; i++) {
-              run_name += firstUpperCase(run_name_array[i]) + " ";
-            }
-            runs_elements.push(
-              <>
-                <div className="board-button flex between v-center">
-                  <h2>{run_name}</h2>
-                  <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
-                </div>
-              </>
-            );
-          }
-    
-          elements.push(
-            <>
-              <div className="board-row">
-                <div className="board flex v-center">
-                  <div className="board-title">
-                    <h2>Stats</h2>
-                  </div>
-                  <div className="board-contents flex h-center around scrollable">
-                    {stat_elements}
-                  </div>
-                </div>
-                <div className="board flex v-center">
-                  <div className="board-title">
-                    <h2>Runs</h2>
-                  </div>
-                  <div className="board-contents scrollable">
-                    {runs_elements}
-                  </div>
-                </div>
-              </div>
-            </>
-          );
-          if(window.location.pathname == "/account") {
-            elements.push(<Settings />)
-          }
-
-          setState(elements);
-        });
-      }
+    supabase.channel('leaderboards').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
       update(selected_user);
+    }).subscribe();
+
+    function update(selected_user) {
+      //Check if user isn't logged in or viewing others profile
+      console.log(selected_user);
+      if (!selected_user) {
+        setState(<LoginRedirect />);
+        return;
+      }
+
+      //Get data
+      getUser(selected_user).then((selected_user_data) => {
+        const elements = [];
+
+        //Account Header
+        let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+        if (selected_user_data.blooket_stats.blook == "Elite") {
+          blook_image = BElite;
+        }
+        elements.push(
+          <>
+            <div className="board-row">
+              <div className="board account-header flex v-center">
+                <img src={blook_image} alt="blook"></img>
+                <div className="flex column">
+                  <h2>{selected_user_data.display_name}</h2>
+                  <p>{selected_user_data.blooket_stats.name}</p>
+                  <p>{selected_user_data.created_at.substring(0, 10)}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+
+        //Stats and Runs
+        const stat_elements = [];
+        const stats = selected_user_data.blooket_stats;
+        const stats_array = Object.keys(stats);
+        const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
+
+        for (let i = 0; i < stats_array.length; i++) {
+          if (!include.includes(stats_array[i])) {
+            continue;
+          }
+          stat_elements.push(
+            <div className="board-stat flex column v-center">
+              <p>{stats_array[i]}</p>
+              <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
+            </div>
+          );
+        }
+
+        const runs_elements = [];
+        const runs = selected_user_data.blooket_runs;
+        const runs_array = Object.keys(runs);
+
+        for (let i = 0; i < runs_array.length; i++) {
+          const run_name_array = runs_array[i].split("-");
+          let run_name = "";
+          for (let i = 0; i < run_name_array.length; i++) {
+            run_name += firstUpperCase(run_name_array[i]) + " ";
+          }
+          runs_elements.push(
+            <>
+              <div className="board-button flex between v-center">
+                <h2>{run_name}</h2>
+                <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
+              </div>
+            </>
+          );
+        }
+
+        elements.push(
+          <>
+            <div className="board-row">
+              <div className="board flex v-center">
+                <div className="board-title">
+                  <h2>Stats</h2>
+                </div>
+                <div className="board-contents flex h-center around scrollable">
+                  {stat_elements}
+                </div>
+              </div>
+              <div className="board flex v-center">
+                <div className="board-title">
+                  <h2>Runs</h2>
+                </div>
+                <div className="board-contents scrollable">
+                  {runs_elements}
+                </div>
+              </div>
+            </div>
+          </>
+        );
+
+        if (window.location.pathname == "/account") {
+          elements.push(<Settings />);
+        }
+
+        setState(elements);
+      });
+    }
+    update(selected_user);
   }, [selected_user]);
 
   return (
