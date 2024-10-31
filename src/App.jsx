@@ -54,6 +54,14 @@ const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, c
 
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
+/*
+supabase
+  .channel('realtime')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Leaderboards' }, payload => console.log(payload))
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => console.log(payload))
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Users' }, payload => console.log(payload))
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => console.log(payload))
+  .subscribe(); */
 
 export function App() {
   return (
@@ -171,41 +179,49 @@ export function Gamemodes() {
 export function GamemodePage() {
   //Get Gamemode
   let params = useParams();
-
   const [boards, setBoards] = useState([]);
   useEffect(() => {
-    getGamemode(params.gamemode).then((r) => {
+    supabase
+      .channel('leaderboards')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
+        const r = update(params.gamemode);
+      })
+      .subscribe(); //This is here for realtime updates
 
-      //Get Header Value & Gamemode Info
-      const header_array = r.gamemode.split("-");
-      let header_text = "";
-      for (let i = 0; i < header_array.length; i++) {
-        header_text += firstUpperCase(header_array[i]) + " ";
-      }
-      const gamemode_info = r.info;
+    function update(g) {
+      getGamemode(g).then((r) => {
+        console.log("test");
+        const header_array = r.gamemode.split("-");
+        let header_text = "";
+        for (let i = 0; i < header_array.length; i++) {
+          header_text += firstUpperCase(header_array[i]) + " ";
+        }
+        const gamemode_info = r.info;
 
-      //Get Leaderboards
-      const leaderboardElements = [];
-      for (let i = 0; i < r.leaderboards.length; i++) {
-        const leaderboard = r.leaderboards[i];
-        leaderboardElements.push(
-          <>
-            <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
-              <img src={icons[leaderboard.icon]} alt={leaderboard.icon}></img>
-              <h2>{leaderboard.name}</h2>
-            </div>
-          </>
-        );
-      }
+        //Get Leaderboards
+        const leaderboardElements = [];
+        for (let i = 0; i < r.leaderboards.length; i++) {
+          const leaderboard = r.leaderboards[i];
+          leaderboardElements.push(
+            <>
+              <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
+                <img src={icons[leaderboard.icon]} alt={leaderboard.icon}></img>
+                <h2>{leaderboard.name}</h2>
+              </div>
+            </>
+          );
+        }
 
-      let response = {
-        header: header_text,
-        info: gamemode_info,
-        leaderboards: leaderboardElements
-      };
-      setBoards(response);
-    });
-  }, [boards, params]);
+        let response = {
+          header: header_text,
+          info: gamemode_info,
+          leaderboards: leaderboardElements
+        };
+        setBoards(response);
+      });
+    }
+    update(params.gamemode);
+  }, [params]);
 
   return (
     <>
@@ -241,97 +257,112 @@ export function LeaderboardPage() {
   const [state, setState] = useState([]);
 
   useEffect(() => {
-    getLeaderboard(params.gamemode, params.leaderboard).then((leaderboard) => {
-      getUsers().then((users) => {
-        //Add all scores to a list and a map
-        let scoreArray = [];
-        const userMap = new Map();
-        let count = 0;
-        users.forEach((user) => {
-          const user_stats = { ...user.blooket_runs, ...user.blooket_stats }; //Combine stats and runs
+    supabase
+      .channel('leaderboard')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
+        leaderboardUpdate(params.gamemode, params.leaderboard);
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
+        leaderboardUpdate(params.gamemode, params.leaderboard);
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Users' }, payload => {
+        leaderboardUpdate(params.gamemode, params.leaderboard);
+      })
+      .subscribe(); //This is here for realtime updates
 
-          if (user_stats.hasOwnProperty(leaderboard.path)) {
-            const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
+    function leaderboardUpdate(g, p) {
+      getLeaderboard(g, p).then((leaderboard) => {
+        getUsers().then((users) => {
+          //Add all scores to a list and a map
+          let scoreArray = [];
+          const userMap = new Map();
+          let count = 0;
+          users.forEach((user) => {
+            const user_stats = { ...user.blooket_runs, ...user.blooket_stats }; //Combine stats and runs
 
-            //Unformat Score
-            let temp;
-            if (leaderboard.type == "Date") {
-              temp = score.substring(0, 10);
-              temp = temp.replaceAll("-", "");
-            } else {
-              temp = score;
-              if (leaderboard.type == "Time") {
-                temp = temp.replaceAll(":", "");
-                temp = temp.replaceAll(".", "");
+            if (user_stats.hasOwnProperty(leaderboard.path)) {
+              const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
+
+              //Unformat Score
+              let temp;
+              if (leaderboard.type == "Date") {
+                temp = score.substring(0, 10);
+                temp = temp.replaceAll("-", "");
+              } else {
+                temp = score;
+                if (leaderboard.type == "Time") {
+                  temp = temp.replaceAll(":", "");
+                  temp = temp.replaceAll(".", "");
+                }
               }
+              temp = temp + (0.0001 * count);
+
+              scoreArray.push(temp);
+              userMap.set(scoreArray.at(-1), { user: user, stats: user_stats });
             }
-            temp = temp + (0.0001 * count);
 
-            scoreArray.push(temp);
-            userMap.set(scoreArray.at(-1), { user: user, stats: user_stats });
+            count++;
+          });
+
+          //Sort Scores
+          if (leaderboard.type == "Time" || leaderboard.type == "Date") {
+            scoreArray = scoreArray.sort(function (a, b) { return a - b });
+          } else {
+            scoreArray = scoreArray.sort(function (a, b) { return b - a });
           }
 
-          count++;
+          //Make Table
+          const leaderboardElements = [];
+
+          for (let i = 0; i < scoreArray.length; i++) {
+            const data = userMap.get(scoreArray[i]);
+
+            let score = Object.getOwnPropertyDescriptor(data.stats, leaderboard.path).value;
+
+            //Format Score
+            if (leaderboard.type == "Date") {
+              score = score.slice(0, 10);
+            }
+
+            let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+            if (data.stats.blook == "Elite") {
+              blook_image = BElite;
+            }
+            leaderboardElements.push(
+              <>
+                <tr id={data.user.display_name} key={data.user.display_name}>
+                  <td>
+                    <h2>{i + 1}.</h2>
+                  </td>
+                  <td className="lb-lock" onClick={accountSelect.bind(this, data.user.display_name)}>
+                    <div className="flex nowrap v-center">
+                      <img src={blook_image} alt={data.stats.blook}></img>
+                      <p>{data.user.display_name}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <p>{score.toLocaleString()}</p>
+                  </td>
+                  <td>
+                    <p>{data.stats.name}</p>
+                  </td>
+                </tr>
+              </>
+            );
+          }
+
+          let response = {
+            header: leaderboard.title,
+            info: leaderboard.desc,
+            type: leaderboard.type,
+            scores: leaderboardElements
+          };
+          setState(response);
         });
-
-        //Sort Scores
-        if (leaderboard.type == "Time" || leaderboard.type == "Date") {
-          scoreArray = scoreArray.sort(function (a, b) { return a - b });
-        } else {
-          scoreArray = scoreArray.sort(function (a, b) { return b - a });
-        }
-
-        //Make Table
-        const leaderboardElements = [];
-
-        for (let i = 0; i < scoreArray.length; i++) {
-          const data = userMap.get(scoreArray[i]);
-
-          let score = Object.getOwnPropertyDescriptor(data.stats, leaderboard.path).value;
-
-          //Format Score
-          if (leaderboard.type == "Date") {
-            score = score.slice(0, 10);
-          }
-
-          let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
-          if (data.stats.blook == "Elite") {
-            blook_image = BElite;
-          }
-          leaderboardElements.push(
-            <>
-              <tr id={data.user.display_name} key={data.user.display_name}>
-                <td>
-                  <h2>{i + 1}.</h2>
-                </td>
-                <td className="lb-lock" onClick={accountSelect.bind(this, data.user.display_name)}>
-                  <div className="flex nowrap v-center">
-                    <img src={blook_image} alt={data.stats.blook}></img>
-                    <p>{data.user.display_name}</p>
-                  </div>
-                </td>
-                <td>
-                  <p>{score.toLocaleString()}</p>
-                </td>
-                <td>
-                  <p>{data.stats.name}</p>
-                </td>
-              </tr>
-            </>
-          );
-        }
-
-        let response = {
-          header: leaderboard.title,
-          info: leaderboard.desc,
-          type: leaderboard.type,
-          scores: leaderboardElements
-        };
-
-        setState(response);
       });
-    });
-  }, [state, params]);
+    }
+    leaderboardUpdate(params.gamemode, params.leaderboard);
+  }, [params]);
 
   return (
     <>
@@ -388,109 +419,124 @@ export function Account() {
   let params = useParams();
   const param_user = params.user;
   const current_user_data = JSON.parse(localStorage.getItem("sb-zacycauwtkwjxbufkmjk-auth-token"));
-
   const [state, setState] = useState([]);
 
-  useEffect(() => {
-    let selected_user;
+  let selected_user;
     if (param_user) {
       selected_user = param_user;
     } else if (current_user_data) {
       selected_user = current_user_data.user.user_metadata.user_name;
-    } else {
-      setState(<LoginRedirect />);
-      return;
-    }
+    } 
 
-    getUser(selected_user).then((selected_user_data) => {
-      //console.log(selected_user_data);
-      const elements = [];
+  useEffect(() => {
+    supabase
+      .channel('leaderboards')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
+        update(selected_user);
+      })
+      .subscribe();
 
-      //Account Header
-      let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
-      if (selected_user_data.blooket_stats.blook == "Elite") {
-        blook_image = BElite;
-      }
-      elements.push(
-        <>
-          <div className="board-row">
-            <div className="board account-header flex v-center">
-              <img src={blook_image} alt="blook"></img>
-              <div className="flex column">
-                <h2>{selected_user_data.display_name}</h2>
-                <p>{selected_user_data.blooket_stats.name}</p>
-                <p>{selected_user_data.created_at.substring(0, 10)}</p>
-              </div>
-            </div>
-          </div>
-        </>
-      );
-
-      //Stats and Runs
-      const stat_elements = [];
-      const stats = selected_user_data.blooket_stats;
-      const stats_array = Object.keys(stats);
-      const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
-
-      for (let i = 0; i < stats_array.length; i++) {
-        if (!include.includes(stats_array[i])) {
-          continue;
+      function update(s) {
+        //Check if user isn't logged in or viewing others profile
+        console.log(s);
+        if(!s) {
+          setState(<LoginRedirect />);
+          return;
         }
-        stat_elements.push(
-          <div className="board-stat flex column v-center">
-            <p>{stats_array[i]}</p>
-            <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
-          </div>
-        );
+        
+        //Get data
+        getUser(s).then((selected_user_data) => {
+          const elements = [];
+    
+          //Account Header
+          let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+          if (selected_user_data.blooket_stats.blook == "Elite") {
+            blook_image = BElite;
+          }
+          elements.push(
+            <>
+              <div className="board-row">
+                <div className="board account-header flex v-center">
+                  <img src={blook_image} alt="blook"></img>
+                  <div className="flex column">
+                    <h2>{selected_user_data.display_name}</h2>
+                    <p>{selected_user_data.blooket_stats.name}</p>
+                    <p>{selected_user_data.created_at.substring(0, 10)}</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+    
+          //Stats and Runs
+          const stat_elements = [];
+          const stats = selected_user_data.blooket_stats;
+          const stats_array = Object.keys(stats);
+          const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
+    
+          for (let i = 0; i < stats_array.length; i++) {
+            if (!include.includes(stats_array[i])) {
+              continue;
+            }
+            stat_elements.push(
+              <div className="board-stat flex column v-center">
+                <p>{stats_array[i]}</p>
+                <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
+              </div>
+            );
+          }
+    
+          const runs_elements = [];
+          const runs = selected_user_data.blooket_runs;
+          const runs_array = Object.keys(runs);
+    
+          for (let i = 0; i < runs_array.length; i++) {
+            const run_name_array = runs_array[i].split("-");
+            let run_name = "";
+            for (let i = 0; i < run_name_array.length; i++) {
+              run_name += firstUpperCase(run_name_array[i]) + " ";
+            }
+            runs_elements.push(
+              <>
+                <div className="board-button flex between v-center">
+                  <h2>{run_name}</h2>
+                  <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
+                </div>
+              </>
+            );
+          }
+    
+          elements.push(
+            <>
+              <div className="board-row">
+                <div className="board flex v-center">
+                  <div className="board-title">
+                    <h2>Stats</h2>
+                  </div>
+                  <div className="board-contents flex h-center around scrollable">
+                    {stat_elements}
+                  </div>
+                </div>
+                <div className="board flex v-center">
+                  <div className="board-title">
+                    <h2>Runs</h2>
+                  </div>
+                  <div className="board-contents scrollable">
+                    {runs_elements}
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+          if(window.location.pathname == "/account") {
+            elements.push(<Settings />)
+          }
+
+          setState(elements);
+        });
       }
-
-      const runs_elements = [];
-      const runs = selected_user_data.blooket_runs;
-      const runs_array = Object.keys(runs);
-
-      for (let i = 0; i < runs_array.length; i++) {
-        const run_name_array = runs_array[i].split("-");
-        let run_name = "";
-        for (let i = 0; i < run_name_array.length; i++) {
-          run_name += firstUpperCase(run_name_array[i]) + " ";
-        }
-        runs_elements.push(
-          <>
-            <div className="board-button flex between v-center">
-              <h2>{run_name}</h2>
-              <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
-            </div>
-          </>
-        );
-      }
-
-      elements.push(
-        <>
-          <div className="board-row">
-            <div className="board flex v-center">
-              <div className="board-title">
-                <h2>Stats</h2>
-              </div>
-              <div className="board-contents flex h-center around scrollable">
-                {stat_elements}
-              </div>
-            </div>
-            <div className="board flex v-center">
-              <div className="board-title">
-                <h2>Runs</h2>
-              </div>
-              <div className="board-contents scrollable">
-                {runs_elements}
-              </div>
-            </div>
-          </div>
-        </>
-      );
-
-      setState(elements);
-    });
-
-  }, [state, param_user, current_user_data]);
+      update(selected_user);
+  }, [selected_user]);
 
   return (
     <>
@@ -785,7 +831,6 @@ async function getGamemode(g) {
   } else {
 
     for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
       if (data[i].gamemode != g) {
         continue;
       }
@@ -938,7 +983,7 @@ async function updateStats() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const { error } = await supabase.from('Users').update({ blooket_stats: account_stats }).eq('display_name', user.user_metadata.user_name);
-  if(error) {
+  if (error) {
     console.error(error);
   }
 }

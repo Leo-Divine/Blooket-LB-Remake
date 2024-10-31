@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       <NavBar />
       <Background />
       <Account />
-      <Settings />
+      
     </>,
   },
   {
