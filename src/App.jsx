@@ -513,6 +513,16 @@ export function Settings() {
             <button type="button" onClick={userLogOut.bind(this)}>Logout</button>
           </div>
         </div>
+        <div className="board flex v-center">
+          <div className="board-title">
+            <h2>Update Stats</h2>
+          </div>
+          <div className="board-contents flex column v-center account-input">
+            <input id="account-stats" className="inputs" type="text" placeholder="Blooket Stats Here!"></input>
+            <button id="account-submit" className="inputs" type="submit" onClick={updateStats.bind(this)}>Submit</button>
+            <a href="https://dashboard.blooket.com/api/users" target="_blank">Blooket API</a>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -575,10 +585,10 @@ export function SignUp() {
               <input id="email-input" className="inputs" type="email" placeholder="Email"></input>
               <input id="password-input" className="inputs" type="password" placeholder="Password"></input>
               <div>
-              <input type="checkbox" id="stats-age"></input>
-              <label htmlFor="stats-age"> I am over the age of 13</label>
-              <input type="checkbox" id="stats-privacy"></input>
-              <label htmlFor="stats-privacy"> I agree to the <a href="/privacy-policy">Privacy Policy</a></label>
+                <input type="checkbox" id="stats-age"></input>
+                <label htmlFor="stats-age"> I am over the age of 13</label>
+                <input type="checkbox" id="stats-privacy"></input>
+                <label htmlFor="stats-privacy"> I agree to the <a href="/privacy-policy">Privacy Policy</a></label>
               </div>
               <button id="user-submit" className="inputs" type="submit" onClick={signUpData.bind(this)}>Sign Up</button>
             </div>
@@ -879,7 +889,7 @@ async function signUpData() {
     return;
   }
   console.log(privacy_verification.checked);
-  if(!age_verification.checked || !privacy_verification.checked) {
+  if (!age_verification.checked || !privacy_verification.checked) {
     alert("Make sure to check all of the boxes!\nPrivacy Policy and Age.");
     return;
   }
@@ -917,6 +927,20 @@ async function userSignUp(u, e, p) {
     return;
   }
   window.location.href = "/create-account";
+}
+
+async function updateStats() {
+  const account_stats = JSON.parse(document.getElementById("account-stats").value);
+  if (!account_stats) {
+    alert("Error: You put in your blooket stats wrong.\nTry re-copying and pasting.");
+  }
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { error } = await supabase.from('Users').update({ blooket_stats: account_stats }).eq('display_name', user.user_metadata.user_name);
+  if(error) {
+    console.error(error);
+  }
 }
 
 async function accountSignUp() {
