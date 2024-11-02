@@ -614,21 +614,6 @@ export function SignUp() {
         <div className="board-row">
           <div className="board flex v-center">
             <div className="board-title">
-              <h2>Steps</h2>
-            </div>
-            <div className="board-contents">
-              <h2 className="text-center">Complete these steps to create your account!</h2>
-              <ol type="1">
-                <li>Login to <a href="https://blooket.com" target="_blank">Blooket</a> and come back to this page.</li>
-                <li>Go to this link in a seperate tab: <a href="https://dashboard.blooket.com/api/users" target="_blank">Blooket API</a>.</li>
-                <li>Copy all of the text on the page.</li>
-                <li>Paste the data into the box below that says "Paste Here!".(It's the only light purple box on the page!)</li>
-                <li>Submit! :D</li>
-              </ol>
-            </div>
-          </div>
-          <div className="board flex v-center">
-            <div className="board-title">
               <h2>Fill Out</h2>
             </div>
             <div className="board-contents flex column v-center account-input">
