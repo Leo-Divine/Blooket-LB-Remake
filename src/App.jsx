@@ -325,8 +325,11 @@ export function LeaderboardPage() {
             }
 
             let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+            let name_class = "";
+            //Custom Stuff
             if (data.stats.blook == "Elite") {
               blook_image = BElite;
+              name_class = "rainbow";
             }
             leaderboardElements.push(
               <>
@@ -337,7 +340,7 @@ export function LeaderboardPage() {
                   <td className="lb-lock" onClick={accountSelect.bind(this, data.user.display_name)}>
                     <div className="flex nowrap v-center">
                       <img src={blook_image} alt={data.stats.blook}></img>
-                      <p>{data.user.display_name}</p>
+                      <p className={name_class}>{data.user.display_name}</p>
                     </div>
                   </td>
                   <td>
@@ -447,8 +450,12 @@ export function Account() {
 
         //Account Header
         let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+        let name_class = "";
+
+        //Custom Stuff
         if (selected_user_data.blooket_stats.blook == "Elite") {
           blook_image = BElite;
+          name_class = "rainbow";
         }
         elements.push(
           <>
@@ -456,7 +463,7 @@ export function Account() {
               <div className="board account-header flex v-center">
                 <img src={blook_image} alt="blook"></img>
                 <div className="flex column">
-                  <h2>{selected_user_data.display_name}</h2>
+                  <h2 className={name_class}>{selected_user_data.display_name}</h2>
                   <p>{selected_user_data.blooket_stats.name}</p>
                   <p>{selected_user_data.created_at.substring(0, 10)}</p>
                 </div>
@@ -900,6 +907,7 @@ async function userLogIn() {
     alert(error);
     return;
   }
+  window.location.reload();
 }
 
 async function userLogOut() {

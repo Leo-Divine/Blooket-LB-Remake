@@ -162,6 +162,77 @@ label {
   cursor: pointer;
 }
 
+.rainbow {
+  text-shadow: 2px 2px 4px #000000;
+  animation: rainbow 5s infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    color: #ffa500;
+  }
+  5% {
+    color: #ff0000
+  }
+  10% {
+    color: #ff0062;
+  }
+  15% {
+    color: #ff00ff;
+  }
+  20% {
+    color: #ff0000;
+  }
+  25% {
+    color: #7700ff;
+  }
+  30% {
+    color: #98fcff;
+  }
+  35% {
+    color: #90ee90;
+  }
+  40% {
+    color: #ffff00;
+  }
+  45% {
+    color: #ffa500;
+  }
+  50% {
+    color: #d9ff00;
+  }
+  55% {
+    color:#9acd32;
+  }
+  60% {
+    color: #00ff00;
+  }
+  65% {
+    color: aquamarine;
+  }
+  70% {
+    color: cyan;
+  }
+  75% {
+    color: #7700ff;
+  }
+  80% {
+    color: #ff1493;
+  }
+  85% {
+    color: #8471ff'
+  }
+  90% {
+    color: #1e90ff;
+  }
+  95% {
+    color: #ffff00;
+  }
+  100% {
+    color: #ffa500;
+  }
+}
+
 @media screen and (max-width: 768px) {
   header {
     font-size: 5vw;
