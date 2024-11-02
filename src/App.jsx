@@ -309,6 +309,7 @@ export function LeaderboardPage() {
           } else {
             scoreArray = scoreArray.sort(function (a, b) { return b - a });
           }
+          scoreArray = scoreArray.filter(element => element >= 1); //Delete scores less than 0
 
           //Make Table
           const leaderboardElements = [];
