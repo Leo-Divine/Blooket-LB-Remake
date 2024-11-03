@@ -51,7 +51,8 @@ import wizardIcon from "./assets/icons/wizard.png";
 import xIcon from "./assets/icons/x.png";
 import yetiIcon from "./assets/icons/yeti.png";
 import flappyIcon from "./assets/icons/flappy.png";
-const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, comboIcon, controllerIcon, damageIcon, desertIcon, dragonIcon, elfIcon, goldfishIcon, fishIcon, frenchtoastIcon, goldIcon, magnetIcon, meadowIcon, milkIcon, mineIcon, owlIcon, personIcon, pigIcon, pizzaIcon, pointsIcon, squirrelIcon, stopwatchIcon, swordsIcon, toastIcon, tokenIcon, trophyIcon, unicornIcon, unlockIcon, waffleIcon, wizardIcon, xIcon, yetiIcon, flappyIcon];
+import gemIcon from "./assets/icons/gem.png";
+const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, comboIcon, controllerIcon, damageIcon, desertIcon, dragonIcon, elfIcon, goldfishIcon, fishIcon, frenchtoastIcon, goldIcon, magnetIcon, meadowIcon, milkIcon, mineIcon, owlIcon, personIcon, pigIcon, pizzaIcon, pointsIcon, squirrelIcon, stopwatchIcon, swordsIcon, toastIcon, tokenIcon, trophyIcon, unicornIcon, unlockIcon, waffleIcon, wizardIcon, xIcon, yetiIcon, flappyIcon, gemIcon];
 
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
