@@ -10,7 +10,7 @@ import towerDefense2Logo from "./assets/game_logos/Tower_Defense_2_Logo.webp";
 import cafeLogo from "./assets/game_logos/Cafe_Logo.webp";
 import crazyKingdomLogo from "./assets/game_logos/Crazy_Kingdom_Logo.webp";
 import statsLogo from "./assets/game_logos/Stats_Logo.png";
-import flappyBlookLogo from "./assets/game_logos/Flappy_Blook_Logo.png";
+import extrasLogo from "./assets/game_logos/Extras_Logo.png";
 import BElite from "./assets/B-Elite.png";
 
 import batIcon from "./assets/icons/bat.png";
@@ -50,18 +50,11 @@ import waffleIcon from "./assets/icons/waffle.png";
 import wizardIcon from "./assets/icons/wizard.png";
 import xIcon from "./assets/icons/x.png";
 import yetiIcon from "./assets/icons/yeti.png";
-const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, comboIcon, controllerIcon, damageIcon, desertIcon, dragonIcon, elfIcon, goldfishIcon, fishIcon, frenchtoastIcon, goldIcon, magnetIcon, meadowIcon, milkIcon, mineIcon, owlIcon, personIcon, pigIcon, pizzaIcon, pointsIcon, squirrelIcon, stopwatchIcon, swordsIcon, toastIcon, tokenIcon, trophyIcon, unicornIcon, unlockIcon, waffleIcon, wizardIcon, xIcon, yetiIcon];
+import flappyIcon from "./assets/icons/flappy.png";
+const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, comboIcon, controllerIcon, damageIcon, desertIcon, dragonIcon, elfIcon, goldfishIcon, fishIcon, frenchtoastIcon, goldIcon, magnetIcon, meadowIcon, milkIcon, mineIcon, owlIcon, personIcon, pigIcon, pizzaIcon, pointsIcon, squirrelIcon, stopwatchIcon, swordsIcon, toastIcon, tokenIcon, trophyIcon, unicornIcon, unlockIcon, waffleIcon, wizardIcon, xIcon, yetiIcon, flappyIcon];
 
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
-/*
-supabase
-  .channel('realtime')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Leaderboards' }, payload => console.log(payload))
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => console.log(payload))
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Users' }, payload => console.log(payload))
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => console.log(payload))
-  .subscribe(); */
 
 export function App() {
   return (
@@ -167,6 +160,9 @@ export function Gamemodes() {
               </a>
               <a href="/gamemodes/stats">
                 <img src={statsLogo} alt="Stats Logo"></img>
+              </a>
+              <a href="/gamemodes/extras">
+                <img src={extrasLogo} alt="Exras Logo"></img>
               </a>
             </div>
           </div>
