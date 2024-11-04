@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './App.css';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "./App.css";
 
 import factoryLogo from "./assets/game_logos/Factory_Logo.webp";
 import monsterBrawlLogo from "./assets/game_logos/Monster_Brawl_Logo.webp";
@@ -52,10 +52,53 @@ import xIcon from "./assets/icons/x.png";
 import yetiIcon from "./assets/icons/yeti.png";
 import flappyIcon from "./assets/icons/flappy.png";
 import gemIcon from "./assets/icons/gem.png";
-const icons = [batIcon, calendarIcon, cashIcon, checkIcon, chickIcon, cogIcon, comboIcon, controllerIcon, damageIcon, desertIcon, dragonIcon, elfIcon, goldfishIcon, fishIcon, frenchtoastIcon, goldIcon, magnetIcon, meadowIcon, milkIcon, mineIcon, owlIcon, personIcon, pigIcon, pizzaIcon, pointsIcon, squirrelIcon, stopwatchIcon, swordsIcon, toastIcon, tokenIcon, trophyIcon, unicornIcon, unlockIcon, waffleIcon, wizardIcon, xIcon, yetiIcon, flappyIcon, gemIcon];
+const icons = [
+  batIcon,
+  calendarIcon,
+  cashIcon,
+  checkIcon,
+  chickIcon,
+  cogIcon,
+  comboIcon,
+  controllerIcon,
+  damageIcon,
+  desertIcon,
+  dragonIcon,
+  elfIcon,
+  goldfishIcon,
+  fishIcon,
+  frenchtoastIcon,
+  goldIcon,
+  magnetIcon,
+  meadowIcon,
+  milkIcon,
+  mineIcon,
+  owlIcon,
+  personIcon,
+  pigIcon,
+  pizzaIcon,
+  pointsIcon,
+  squirrelIcon,
+  stopwatchIcon,
+  swordsIcon,
+  toastIcon,
+  tokenIcon,
+  trophyIcon,
+  unicornIcon,
+  unlockIcon,
+  waffleIcon,
+  wizardIcon,
+  xIcon,
+  yetiIcon,
+  flappyIcon,
+  gemIcon,
+];
 
-import { createClient } from '@supabase/supabase-js';
-const supabase = createClient('https://zacycauwtkwjxbufkmjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o');
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  "https://zacycauwtkwjxbufkmjk.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3ljYXV3dGt3anhidWZrbWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTM4NjMsImV4cCI6MjA0NTYyOTg2M30.SYa6fSMtGb1JSynCltNAv1HEn9Imy_GC3eUqygPPZ9o"
+);
 
 export function App() {
   return (
@@ -70,7 +113,14 @@ export function App() {
               <h2>What is This?</h2>
             </div>
             <div className="board-contents">
-              <p>Blooket Leaderboards is a website that showcases leaderboards ranking the achievements of many different blooket players. You can see leaderboards from a wide variety of different categories, from gamemodes, to stats, even to the leaderboards from blooket events. This website is here to showcase the skill of any and all blooket players.</p>
+              <p>
+                Blooket Leaderboards is a website that showcases leaderboards
+                ranking the achievements of many different blooket players. You
+                can see leaderboards from a wide variety of different
+                categories, from gamemodes, to stats, even to the leaderboards
+                from blooket events. This website is here to showcase the skill
+                of any and all blooket players.
+              </p>
             </div>
           </div>
         </div>
@@ -179,10 +229,14 @@ export function GamemodePage() {
   const [boards, setBoards] = useState([]);
   useEffect(() => {
     supabase
-      .channel('leaderboards')
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
-        update(params.gamemode);
-      })
+      .channel("leaderboards")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Leaderboards" },
+        (payload) => {
+          update(params.gamemode);
+        }
+      )
       .subscribe(); //This is here for realtime updates
 
     function update(g) {
@@ -200,7 +254,15 @@ export function GamemodePage() {
           const leaderboard = r.leaderboards[i];
           leaderboardElements.push(
             <>
-              <div key={leaderboard.path} className="board-button flex v-center" onClick={selectLeaderboard.bind(this, r.gamemode, leaderboard.path)}>
+              <div
+                key={leaderboard.path}
+                className="board-button flex v-center"
+                onClick={selectLeaderboard.bind(
+                  this,
+                  r.gamemode,
+                  leaderboard.path
+                )}
+              >
                 <img src={icons[leaderboard.icon]} alt={leaderboard.icon}></img>
                 <h2>{leaderboard.name}</h2>
               </div>
@@ -211,7 +273,7 @@ export function GamemodePage() {
         let response = {
           header: header_text,
           info: gamemode_info,
-          leaderboards: leaderboardElements
+          leaderboards: leaderboardElements,
         };
         setBoards(response);
       });
@@ -254,16 +316,28 @@ export function LeaderboardPage() {
 
   useEffect(() => {
     supabase
-      .channel('leaderboard')
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Leaderboards' }, payload => {
-        update(params.gamemode, params.leaderboard);
-      })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
-        update(params.gamemode, params.leaderboard);
-      })
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Users' }, payload => {
-        update(params.gamemode, params.leaderboard);
-      })
+      .channel("leaderboard")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Leaderboards" },
+        (payload) => {
+          update(params.gamemode, params.leaderboard);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Users" },
+        (payload) => {
+          update(params.gamemode, params.leaderboard);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "Users" },
+        (payload) => {
+          update(params.gamemode, params.leaderboard);
+        }
+      )
       .subscribe(); //This is here for realtime updates
 
     function update(g, p) {
@@ -277,7 +351,10 @@ export function LeaderboardPage() {
             const user_stats = { ...user.blooket_runs, ...user.blooket_stats }; //Combine stats and runs
 
             if (user_stats.hasOwnProperty(leaderboard.path)) {
-              const score = Object.getOwnPropertyDescriptor(user_stats, leaderboard.path).value;
+              const score = Object.getOwnPropertyDescriptor(
+                user_stats,
+                leaderboard.path
+              ).value;
 
               //Unformat Score
               let temp;
@@ -291,7 +368,7 @@ export function LeaderboardPage() {
                   temp = temp.replaceAll(".", "");
                 }
               }
-              temp = temp + (0.0001 * count);
+              temp = temp + 0.0001 * count;
 
               scoreArray.push(temp);
               userMap.set(scoreArray.at(-1), { user: user, stats: user_stats });
@@ -302,11 +379,15 @@ export function LeaderboardPage() {
 
           //Sort Scores
           if (leaderboard.type == "Time" || leaderboard.type == "Date") {
-            scoreArray = scoreArray.sort(function (a, b) { return a - b });
+            scoreArray = scoreArray.sort(function (a, b) {
+              return a - b;
+            });
           } else {
-            scoreArray = scoreArray.sort(function (a, b) { return b - a });
+            scoreArray = scoreArray.sort(function (a, b) {
+              return b - a;
+            });
           }
-          scoreArray = scoreArray.filter(element => element >= 1); //Delete scores less than 0
+          scoreArray = scoreArray.filter((element) => element >= 1); //Delete scores less than 0
 
           //Make Table
           const leaderboardElements = [];
@@ -314,14 +395,19 @@ export function LeaderboardPage() {
           for (let i = 0; i < scoreArray.length; i++) {
             const data = userMap.get(scoreArray[i]);
 
-            let score = Object.getOwnPropertyDescriptor(data.stats, leaderboard.path).value;
+            let score = Object.getOwnPropertyDescriptor(
+              data.stats,
+              leaderboard.path
+            ).value;
 
             //Format Score
             if (leaderboard.type == "Date") {
               score = score.slice(0, 10);
             }
 
-            let blook_image = `https://ac.blooket.com/marketassets/blooks/${(data.stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+            let blook_image = `https://ac.blooket.com/marketassets/blooks/${data.stats.blook
+              .replaceAll(" ", "")
+              .toLowerCase()}.svg`;
             let name_class = "";
             //Custom Stuff
             if (data.stats.blook == "Elite") {
@@ -334,7 +420,10 @@ export function LeaderboardPage() {
                   <td>
                     <h2>{i + 1}.</h2>
                   </td>
-                  <td className="lb-lock" onClick={accountSelect.bind(this, data.user.display_name)}>
+                  <td
+                    className="lb-lock"
+                    onClick={accountSelect.bind(this, data.user.display_name)}
+                  >
                     <div className="flex nowrap v-center">
                       <img src={blook_image} alt={data.stats.blook}></img>
                       <p className={name_class}>{data.user.display_name}</p>
@@ -355,7 +444,7 @@ export function LeaderboardPage() {
             header: leaderboard.title,
             info: leaderboard.desc,
             type: leaderboard.type,
-            scores: leaderboardElements
+            scores: leaderboardElements,
           };
           setState(response);
         });
@@ -403,9 +492,7 @@ export function LeaderboardPage() {
                     </td>
                   </tr>
                 </thead>
-                <tbody>
-                  {state.scores}
-                </tbody>
+                <tbody>{state.scores}</tbody>
               </table>
             </div>
           </div>
@@ -418,7 +505,9 @@ export function LeaderboardPage() {
 export function Account() {
   let params = useParams();
   const param_user = params.user;
-  const current_user_data = JSON.parse(localStorage.getItem("sb-zacycauwtkwjxbufkmjk-auth-token"));
+  const current_user_data = JSON.parse(
+    localStorage.getItem("sb-zacycauwtkwjxbufkmjk-auth-token")
+  );
   const [state, setState] = useState([]);
 
   let selected_user;
@@ -429,9 +518,16 @@ export function Account() {
   }
 
   useEffect(() => {
-    supabase.channel('leaderboards').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Users' }, payload => {
-      update(selected_user);
-    }).subscribe();
+    supabase
+      .channel("leaderboards")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Users" },
+        (payload) => {
+          update(selected_user);
+        }
+      )
+      .subscribe();
 
     function update(selected_user) {
       //Check if user isn't logged in or viewing others profile
@@ -446,7 +542,9 @@ export function Account() {
         const elements = [];
 
         //Account Header
-        let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
+        let blook_image = `https://ac.blooket.com/marketassets/blooks/${selected_user_data.blooket_stats.blook
+          .replaceAll(" ", "")
+          .toLowerCase()}.svg`;
         let name_class = "";
 
         //Custom Stuff
@@ -460,7 +558,9 @@ export function Account() {
               <div className="board account-header flex v-center">
                 <img src={blook_image} alt="blook"></img>
                 <div className="flex column">
-                  <h2 className={name_class}>{selected_user_data.display_name}</h2>
+                  <h2 className={name_class}>
+                    {selected_user_data.display_name}
+                  </h2>
                   <p>{selected_user_data.blooket_stats.name}</p>
                   <p>{selected_user_data.created_at.substring(0, 10)}</p>
                 </div>
@@ -473,7 +573,23 @@ export function Account() {
         const stat_elements = [];
         const stats = selected_user_data.blooket_stats;
         const stats_array = Object.keys(stats);
-        const include = ["wins", "cafeCash", "upgrades", "defenseDmg", "foodServed", "numUnlocks", "boxesOpened", "gamesPlayed", "totalTokens", "showdownWins", "classicPoints", "defenseRounds", "correctAnswers", "playersDefeated", "totalFishWeight"];
+        const include = [
+          "wins",
+          "cafeCash",
+          "upgrades",
+          "defenseDmg",
+          "foodServed",
+          "numUnlocks",
+          "boxesOpened",
+          "gamesPlayed",
+          "totalTokens",
+          "showdownWins",
+          "classicPoints",
+          "defenseRounds",
+          "correctAnswers",
+          "playersDefeated",
+          "totalFishWeight",
+        ];
 
         for (let i = 0; i < stats_array.length; i++) {
           if (!include.includes(stats_array[i])) {
@@ -482,7 +598,12 @@ export function Account() {
           stat_elements.push(
             <div className="board-stat flex column v-center">
               <p>{stats_array[i]}</p>
-              <h2>{Object.getOwnPropertyDescriptor(stats, stats_array[i]).value.toLocaleString()}</h2>
+              <h2>
+                {Object.getOwnPropertyDescriptor(
+                  stats,
+                  stats_array[i]
+                ).value.toLocaleString()}
+              </h2>
             </div>
           );
         }
@@ -501,7 +622,12 @@ export function Account() {
             <>
               <div className="board-button flex between v-center">
                 <h2>{run_name}</h2>
-                <p>{Object.getOwnPropertyDescriptor(runs, runs_array[i]).value.toLocaleString()}</p>
+                <p>
+                  {Object.getOwnPropertyDescriptor(
+                    runs,
+                    runs_array[i]
+                  ).value.toLocaleString()}
+                </p>
               </div>
             </>
           );
@@ -522,9 +648,7 @@ export function Account() {
                 <div className="board-title">
                   <h2>Runs</h2>
                 </div>
-                <div className="board-contents scrollable">
-                  {runs_elements}
-                </div>
+                <div className="board-contents scrollable">{runs_elements}</div>
               </div>
             </div>
           </>
@@ -542,9 +666,7 @@ export function Account() {
 
   return (
     <>
-      <main>
-        {state}
-      </main>
+      <main>{state}</main>
     </>
   );
 }
@@ -558,7 +680,9 @@ export function Settings() {
             <h2>Settings</h2>
           </div>
           <div className="board-contents">
-            <button type="button" onClick={userLogOut.bind(this)}>Logout</button>
+            <button type="button" onClick={userLogOut.bind(this)}>
+              Logout
+            </button>
           </div>
         </div>
         <div className="board flex v-center">
@@ -566,9 +690,23 @@ export function Settings() {
             <h2>Update Stats</h2>
           </div>
           <div className="board-contents flex column v-center account-input">
-            <input id="account-stats" className="inputs" type="text" placeholder="Blooket Stats Here!"></input>
-            <button id="account-submit" className="inputs" type="submit" onClick={updateStats.bind(this)}>Submit</button>
-            <a href="https://dashboard.blooket.com/api/users" target="_blank">Blooket API</a>
+            <input
+              id="account-stats"
+              className="inputs"
+              type="text"
+              placeholder="Blooket Stats Here!"
+            ></input>
+            <button
+              id="account-submit"
+              className="inputs"
+              type="submit"
+              onClick={updateStats.bind(this)}
+            >
+              Submit
+            </button>
+            <a href="https://dashboard.blooket.com/api/users" target="_blank">
+              Blooket API
+            </a>
           </div>
         </div>
       </div>
@@ -589,9 +727,26 @@ function LoginRedirect() {
               <h2>Log In</h2>
             </div>
             <div className="board-contents flex column v-center">
-              <input id="email-input" className="inputs" type="email" placeholder="Email"></input>
-              <input id="password-input" className="inputs" type="password" placeholder="Password"></input>
-              <button id="user-submit" className="inputs" type="submit" onClick={userLogIn.bind(this)}>Login</button>
+              <input
+                id="email-input"
+                className="inputs"
+                type="email"
+                placeholder="Email"
+              ></input>
+              <input
+                id="password-input"
+                className="inputs"
+                type="password"
+                placeholder="Password"
+              ></input>
+              <button
+                id="user-submit"
+                className="inputs"
+                type="submit"
+                onClick={userLogIn.bind(this)}
+              >
+                Login
+              </button>
               <a href="/sign-up">Sign Up Page</a>
             </div>
           </div>
@@ -614,16 +769,41 @@ export function SignUp() {
               <h2>Fill Out</h2>
             </div>
             <div className="board-contents flex column v-center account-input">
-              <input id="username-input" className="inputs" type="text" placeholder="Username"></input>
-              <input id="email-input" className="inputs" type="email" placeholder="Email"></input>
-              <input id="password-input" className="inputs" type="password" placeholder="Password"></input>
+              <input
+                id="username-input"
+                className="inputs"
+                type="text"
+                placeholder="Username"
+              ></input>
+              <input
+                id="email-input"
+                className="inputs"
+                type="email"
+                placeholder="Email"
+              ></input>
+              <input
+                id="password-input"
+                className="inputs"
+                type="password"
+                placeholder="Password"
+              ></input>
               <div>
                 <input type="checkbox" id="stats-age"></input>
                 <label htmlFor="stats-age"> I am over the age of 13</label>
                 <input type="checkbox" id="stats-privacy"></input>
-                <label htmlFor="stats-privacy"> I agree to the <a href="/privacy-policy">Privacy Policy</a></label>
+                <label htmlFor="stats-privacy">
+                  {" "}
+                  I agree to the <a href="/privacy-policy">Privacy Policy</a>
+                </label>
               </div>
-              <button id="user-submit" className="inputs" type="submit" onClick={signUpData.bind(this)}>Sign Up</button>
+              <button
+                id="user-submit"
+                className="inputs"
+                type="submit"
+                onClick={signUpData.bind(this)}
+              >
+                Sign Up
+              </button>
             </div>
           </div>
         </div>
@@ -645,12 +825,32 @@ export function AccountCreation() {
               <h2>Steps</h2>
             </div>
             <div className="board-contents">
-              <h2 className="text-center">Complete these steps to complete your account creation!</h2>
+              <h2 className="text-center">
+                Complete these steps to complete your account creation!
+              </h2>
               <ol type="1">
-                <li>Login to <a href="https://blooket.com" target="_blank">Blooket</a> and come back to this page.</li>
-                <li>Go to this link in a seperate tab: <a href="https://dashboard.blooket.com/api/users" target="_blank">Blooket API</a>.</li>
+                <li>
+                  Login to{" "}
+                  <a href="https://blooket.com" target="_blank">
+                    Blooket
+                  </a>{" "}
+                  and come back to this page.
+                </li>
+                <li>
+                  Go to this link in a seperate tab:{" "}
+                  <a
+                    href="https://dashboard.blooket.com/api/users"
+                    target="_blank"
+                  >
+                    Blooket API
+                  </a>
+                  .
+                </li>
                 <li>Copy all of the text on the page.</li>
-                <li>Paste the data into the box below that says "Paste Here!".(It's the only light purple box on the page!)</li>
+                <li>
+                  Paste the data into the box below that says &quot;Paste
+                  Here!&quot;.(It&apos;s the only light purple box on the page!)
+                </li>
                 <li>Submit! :D</li>
               </ol>
             </div>
@@ -660,8 +860,20 @@ export function AccountCreation() {
               <h2>Fill Out</h2>
             </div>
             <div className="board-contents flex column v-center account-input">
-              <input id="account-stats" className="inputs" type="text" placeholder="Paste Here!"></input>
-              <button id="account-submit" className="inputs" type="submit" onClick={accountSignUp.bind(this)}>Submit</button>
+              <input
+                id="account-stats"
+                className="inputs"
+                type="text"
+                placeholder="Paste Here!"
+              ></input>
+              <button
+                id="account-submit"
+                className="inputs"
+                type="submit"
+                onClick={accountSignUp.bind(this)}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
@@ -673,30 +885,36 @@ export function AccountCreation() {
 export function PrivacyPolicy() {
   return (
     <>
-      <div style={{ color: 'black' }}>
+      <div style={{ color: "black" }}>
         <h1> Privacy Policy for Blooket Leaderboards </h1>
-        <h3> This Privacy Policy describes the information collected, how it is used and protected, and your privacy rights. </h3>
+        <h3>
+          {" "}
+          This Privacy Policy describes the information collected, how it is
+          used and protected, and your privacy rights.{" "}
+        </h3>
         <p> Last Updated: 30 October 2024 </p>
         <br />
         <h2> Terminology </h2>
         <p> Bolded words have meanings which are described below. </p>
         <ul>
           <li>
-            <b> Account: </b> refers to a/the unique user that has added their <b>Personal Data</b> to Blooket
-            Leaderboards.
+            <b> Account: </b> refers to a/the unique user that has added their{" "}
+            <b>Personal Data</b> to Blooket Leaderboards.
           </li>
           <br />
           <li>
-            <b> Blooket: </b> refers to Blooket LLC, and their service/website <a href="blooket.com"> blooket.com
-            </a>.
+            <b> Blooket: </b> refers to Blooket LLC, and their service/website{" "}
+            <a href="blooket.com"> blooket.com</a>.
           </li>
           <br />
           <li>
-            <b> Company: </b> referred to "We", "Us", or "Our", and refers to Blooket Leaderboards.
+            <b> Company: </b> referred to &quot;We&quot;, &quot;Us&quot;, or &quot;Our&quot;, and refers to
+            Blooket Leaderboards.
           </li>
           <br />
           <li>
-            <b> Personal Data: </b> any information that relates to an identified or identifiable individual.
+            <b> Personal Data: </b> any information that relates to an
+            identified or identifiable individual.
           </li>
           <br />
           <li>
@@ -704,8 +922,12 @@ export function PrivacyPolicy() {
           </li>
           <br />
           <li>
-            <b> Website: </b> refers to Blooket Leaderboards, accessed from <a href="https://blooket-leaderboards.pages.dev/"> blooket-leaderboards.pages.dev
-            </a>.
+            <b> Website: </b> refers to Blooket Leaderboards, accessed from{" "}
+            <a href="https://blooket-leaderboards.pages.dev/">
+              {" "}
+              blooket-leaderboards.pages.dev
+            </a>
+            .
           </li>
           <br />
           <li>
@@ -714,95 +936,164 @@ export function PrivacyPolicy() {
         </ul>
         <br />
         <h2> Relations with Blooket LLC </h2>
-        <p> <b>We</b> are a seperate service to <b>Blooket</b>. However, creating an <b>Account</b> using our <b>Service</b> requires you to use <b>Blooket</b> to make an account on their website. <b>We</b> are not responsible for any issues that may happen to your account or data on <b>Blooket</b>.
+        <p>
+          {" "}
+          <b>We</b> are a seperate service to <b>Blooket</b>. However, creating
+          an <b>Account</b> using our <b>Service</b> requires you to use{" "}
+          <b>Blooket</b> to make an account on their website. <b>We</b> are not
+          responsible for any issues that may happen to your account or data on{" "}
+          <b>Blooket</b>.
         </p>
         <br />
         <h2> Your Data </h2>
         <h3> What Data is Collected </h3>
-        <p> When using <b>Our Service</b>, <b>We</b> may ask <b>You</b> to provide us with personal information that can
-          be used to contact and identify you. Personal information that is collected may include, but not limmited
-          to:
+        <p>
+          {" "}
+          When using <b>Our Service</b>, <b>We</b> may ask <b>You</b> to provide
+          us with personal information that can be used to contact and identify
+          you. Personal information that is collected may include, but not
+          limmited to:
           <ul>
             <li> Email Address. </li>
             <br />
             <li> Password. </li>
             <br />
-            <li> Your <b>Blooket</b> Username. </li>
+            <li>
+              {" "}
+              Your <b>Blooket</b> Username.{" "}
+            </li>
             <br />
-            <li> Your <b>Blooket</b> Statistics(ex. how many games you have played). </li>
+            <li>
+              {" "}
+              Your <b>Blooket</b> Statistics(ex. how many games you have
+              played).{" "}
+            </li>
             <br />
-            <li>Your <b>Blooket</b> Account's Date of Creation. </li>
+            <li>
+              Your <b>Blooket</b> Account&apos;s Date of Creation.{" "}
+            </li>
           </ul>
-          Blooket Leaderboards will never ask you for your blooket password, payment information, or anything private to
-          you. If anyone that says thay are associated with the <b>Service</b> or the <b>Website</b> and asks you for your
-          blooket password, DO NOT GIVE THEM ANYTHING! I repeat, DO NOT GIVE THEM YOUR PASSWORD!!
+          Blooket Leaderboards will never ask you for your blooket password,
+          payment information, or anything private to you. If anyone that says
+          thay are associated with the <b>Service</b> or the <b>Website</b> and
+          asks you for your blooket password, DO NOT GIVE THEM ANYTHING! I
+          repeat, DO NOT GIVE THEM YOUR PASSWORD!!
         </p>
         <br />
         <h3> How Data is Collected </h3>
-        <p> Your <b>Personal Data</b> is provided to <b>Us</b> through a form that can be seen on our <b>Website</b>. No
-          data is taken without <b>Your</b> Consent. </p>
+        <p>
+          {" "}
+          Your <b>Personal Data</b> is provided to <b>Us</b> through a form that
+          can be seen on our <b>Website</b>. No data is taken without{" "}
+          <b>Your</b> Consent.{" "}
+        </p>
         <br />
         <h3> Why Data is Collected </h3>
-        <p> Blooket Leaderboards is a service that collects data from <b>You</b> and others to rank users based on your
-          <b>Blooket</b> Account's statistics. <b>We</b> use your data to rank you among others, to contact you if
-          issues with the <b>Website</b> arises, or to inform <b>You</b> of changes relating to <b>Your Personal
-            Data</b>.
+        <p>
+          {" "}
+          Blooket Leaderboards is a service that collects data from <b>
+            You
+          </b>{" "}
+          and others to rank users based on your
+          <b>Blooket</b> Account&apos;s statistics. <b>We</b> use your data to rank
+          you among others, to contact you if issues with the <b>Website</b>{" "}
+          arises, or to inform <b>You</b> of changes relating to{" "}
+          <b>Your Personal Data</b>.
         </p>
         <br />
         <h3> What Data is Made Public </h3>
         <p>
-          Some of the data collected by <b>Us</b> is displayed on <b>Our Website</b>. This data includes:
+          Some of the data collected by <b>Us</b> is displayed on{" "}
+          <b>Our Website</b>. This data includes:
           <ul>
-            <li> Your <b>Blooket</b> Username. </li>
+            <li>
+              {" "}
+              Your <b>Blooket</b> Username.{" "}
+            </li>
             <br />
-            <li> Your <b>Blooket</b> Account's Statistics. </li>
+            <li>
+              {" "}
+              Your <b>Blooket</b> Account&apos;s Statistics.{" "}
+            </li>
             <br />
-            <li> Your Account's Date of Creation. </li>
+            <li> Your Account&apos;s Date of Creation. </li>
             <br />
-            <li> Your <b>Blooket</b> Account's Date of Creation. </li>
+            <li>
+              {" "}
+              Your <b>Blooket</b> Account&apos;s Date of Creation.{" "}
+            </li>
           </ul>
           <br />
         </p>
         <h3> What Data is Made Private </h3>
-        <p> <b>Personal Data</b> that can be used to contact or impersonate <b>You</b> is never shown to the public. This data may
-          inclide but is not limited to:
+        <p>
+          {" "}
+          <b>Personal Data</b> that can be used to contact or impersonate{" "}
+          <b>You</b> is never shown to the public. This data may inclide but is
+          not limited to:
           <ul>
             <li> Your Email Address </li>
             <br />
             <li> Your Password </li>
             <br />
-            <li> Any Other Data Used to Contact <b>You</b>. </li>
+            <li>
+              {" "}
+              Any Other Data Used to Contact <b>You</b>.{" "}
+            </li>
           </ul>
         </p>
         <br />
         <h3> Security of Your Personal Data </h3>
-        <p> Keeping the privacy of the <b>Accounts</b> and the users are important. Nothing over the internet is 100%
-          secure, but <b>We</b> do Our best to keep <b>Your</b> data secure. </p>
+        <p>
+          {" "}
+          Keeping the privacy of the <b>Accounts</b> and the users are
+          important. Nothing over the internet is 100% secure, but <b>We</b> do
+          Our best to keep <b>Your</b> data secure.{" "}
+        </p>
         <br />
         <h2> Your Rights </h2>
         <h3> Changing Your Contact Information </h3>
-        <p> <b>You</b> are easily able to change the way <b>We</b> contact you. By resubmitting the form on the
-          <b>Website</b> with a different contact, it automatically updates the contact info. <b>Your</b> old contact
-          info is never saved, and is deleted when you change it.
+        <p>
+          {" "}
+          <b>You</b> are easily able to change the way <b>We</b> contact you. By
+          resubmitting the form on the
+          <b>Website</b> with a different contact, it automatically updates the
+          contact info. <b>Your</b> old contact info is never saved, and is
+          deleted when you change it.
         </p>
         <br />
         <h3> Deleting Your Data </h3>
-        <p> If at any point you wish to delete your <b>Personal Data</b> that is saved, <b>You</b> may contact <b>Us</b>
-          from any of the contacts provided at the end of this document. <b>We</b> are obligated to delete any and all
-          data saved under <b>Your Account</b>. </p>
+        <p>
+          {" "}
+          If at any point you wish to delete your <b>Personal Data</b> that is
+          saved, <b>You</b> may contact <b>Us</b>
+          from any of the contacts provided at the end of this document.{" "}
+          <b>We</b> are obligated to delete any and all data saved under{" "}
+          <b>Your Account</b>.{" "}
+        </p>
         <br />
-        <h2> Children's Policy </h2>
-        <p> Although <b>We</b> ask if <b>You</b> are over the age of 13, children are capable of giving <b>Us</b> false information.
-          <b>We</b> never intentionally gather the data of anyone under the age of 13. If at any point it comes to
-          <b>Our</b> attention that the <b>Personal Data</b> of someone under the age of 13 is in <b>Our</b> possesion, it becomes a priority to remove the data from our database.
+        <h2> Children&apos;s Policy </h2>
+        <p>
+          {" "}
+          Although <b>We</b> ask if <b>You</b> are over the age of 13, children
+          are capable of giving <b>Us</b> false information.
+          <b>We</b> never intentionally gather the data of anyone under the age
+          of 13. If at any point it comes to
+          <b>Our</b> attention that the <b>Personal Data</b> of someone under
+          the age of 13 is in <b>Our</b> possesion, it becomes a priority to
+          remove the data from our database.
         </p>
         <br />
         <h2> Contact Us </h2>
         <p>
-          If you need to contact <b>Us</b> on questions about the <b>Service/Website</b>, matters regarding <b>Your</b> data, or any other matters, <b>You</b> may reach out to <b>Us</b> through the contact info
-          provided below:
+          If you need to contact <b>Us</b> on questions about the{" "}
+          <b>Service/Website</b>, matters regarding <b>Your</b> data, or any
+          other matters, <b>You</b> may reach out to <b>Us</b> through the
+          contact info provided below:
           <ul>
-            <li><b> Email: </b> blooketelite@gmail.com </li>
+            <li>
+              <b> Email: </b> blooketelite@gmail.com{" "}
+            </li>
           </ul>
         </p>
       </div>
@@ -811,12 +1102,11 @@ export function PrivacyPolicy() {
 }
 
 async function getGamemode(g) {
-  const { data, error } = await supabase.from('Leaderboards').select();
+  const { data, error } = await supabase.from("Leaderboards").select();
 
   if (error) {
     console.error(error);
   } else {
-
     for (let i = 0; i < data.length; i++) {
       if (data[i].gamemode != g) {
         continue;
@@ -828,7 +1118,7 @@ async function getGamemode(g) {
 }
 
 async function getLeaderboard(g, p) {
-  const { data, error } = await supabase.from('Leaderboards').select();
+  const { data, error } = await supabase.from("Leaderboards").select();
 
   if (error) {
     console.error(error);
@@ -853,7 +1143,7 @@ async function getLeaderboard(g, p) {
 }
 
 async function getUsers() {
-  const { data, error } = await supabase.from('Users').select();
+  const { data, error } = await supabase.from("Users").select();
 
   if (error) {
     console.error(error);
@@ -864,7 +1154,7 @@ async function getUsers() {
 }
 
 async function getUser(user_name) {
-  const { data, error } = await supabase.from('Users').select();
+  const { data, error } = await supabase.from("Users").select();
   if (error) {
     console.error(error);
     return;
@@ -948,8 +1238,8 @@ async function userSignUp(u, e, p) {
       shouldCreateUser: false,
       data: {
         user_name: u,
-      }
-    }
+      },
+    },
   });
   if (error) {
     if (error == "AuthApiError: User already registered") {
@@ -963,28 +1253,52 @@ async function userSignUp(u, e, p) {
 }
 
 async function updateStats() {
-  const account_stats = JSON.parse(document.getElementById("account-stats").value);
+  const account_stats = JSON.parse(
+    document.getElementById("account-stats").value
+  );
   if (!account_stats) {
-    alert("Error: You put in your blooket stats wrong.\nTry re-copying and pasting.");
+    alert(
+      "Error: You put in your blooket stats wrong.\nTry re-copying and pasting."
+    );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const { error } = await supabase.from('Users').update({ blooket_stats: account_stats }).eq('display_name', user.user_metadata.user_name);
+  const { error } = await supabase
+    .from("Users")
+    .update({ blooket_stats: account_stats })
+    .eq("display_name", user.user_metadata.user_name);
   if (error) {
     console.error(error);
   }
 }
 
 async function accountSignUp() {
-  const account_stats = JSON.parse(document.getElementById("account-stats").value);
+  const account_stats = JSON.parse(
+    document.getElementById("account-stats").value
+  );
   if (!account_stats) {
-    alert("Error: You put in your blooket stats wrong.\nTry re-copying and pasting.");
+    alert(
+      "Error: You put in your blooket stats wrong.\nTry re-copying and pasting."
+    );
   }
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   console.log(account_stats);
 
-  const { error } = await supabase.from('Users').insert({ display_name: user.user_metadata.user_name, user_id: user.id, created_at: user.created_at, blooket_stats: account_stats, blooket_id: account_stats._id, blooket_runs: {} });
+  const { error } = await supabase
+    .from("Users")
+    .insert({
+      display_name: user.user_metadata.user_name,
+      user_id: user.id,
+      created_at: user.created_at,
+      blooket_stats: account_stats,
+      blooket_id: account_stats._id,
+      blooket_runs: {},
+    });
   if (error) {
     alert(error);
     return;
