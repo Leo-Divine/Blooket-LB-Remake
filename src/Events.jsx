@@ -13,7 +13,7 @@ export function CoC2023() {
         const time_string = new Date(Date.parse(data.time));
         rankingElements.push(
           <div key={i} className="ranking-box text-center">
-            <h2>{`${i + 1}th Place`}</h2>
+            <h2>{`${ordinalNumber(i + 1)} Place`}</h2>
             <h3>{data.name}</h3>
             <h4>Stickers: 108</h4>
             <h6>{`Dec ${time_string.getDate()}th 2023, ${time_string.toTimeString().substring(0, 8)}`}</h6>
@@ -48,23 +48,24 @@ export function CoC2023() {
     </>
   );
 }
-/*<div className="flex h-center">
-            <div className="ranking-box text-center">
-              <h2>1st Place</h2>
-              <h3>X0T1C5</h3>
-              <h3>Stickers: 108</h3>
-              <h6>Dec 8th 2023, 21:20:09 EST</h6>
-            </div>
-            <div className="ranking-box text-center"></div>
-          </div>
-          <div className="flex h-center">
-            <div className="ranking-box text-center"></div>
-            <div className="ranking-box text-center"></div>
-          </div>
-          */
 
 async function getEventLeaderboard(event) {
   const response = await fetch(`/data/${event}.json`);
   const JSON = await response.json();
   return JSON;
+}
+
+function ordinalNumber(num) {
+  let j = num % 10,
+      k = num % 100;
+  if (j === 1 && k !== 11) {
+      return `${num}st`;
+  }
+  if (j === 2 && k !== 12) {
+      return `${num}nd`;
+  }
+  if (j === 3 && k !== 13) {
+      return `${num}rd`;
+  }
+  return `${num}th`;
 }
