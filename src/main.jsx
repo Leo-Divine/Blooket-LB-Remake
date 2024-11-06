@@ -6,71 +6,77 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+globalThis.addEventListener("error", (event) => {
+  alert(JSON.stringify(event) + "Hello");
+});
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+	path: "/",
+	element: <App />,
+	children: [
+	  {
+		path: "home",
+	  },
+	],
   },
   {
-    path: "/home",
-    element: <App />,
+	path: "/gamemodes",
+	element: <Gamemodes />,
   },
   {
-    path: "/gamemodes",
-    element: <Gamemodes />,
+	path: "/gamemodes/:gamemode",
+	element: <GamemodePage />,
   },
   {
-    path: "/gamemodes/:gamemode",
-    element: <GamemodePage />,
+	path: "/gamemodes/:gamemode/:leaderboard",
+	element: <LeaderboardPage />,
   },
   {
-    path: "/gamemodes/:gamemode/:leaderboard",
-    element: <LeaderboardPage />,
+	path: "/account",
+	element: <Account />,
+	children: [
+	  {
+		path: ":user",
+	  },
+	],
   },
   {
-    path: "/account",
-    element: <Account />,
+	path: "/sign-up",
+	element: <SignUp />,
   },
   {
-    path: "/account/:user",
-    element: <Account />,
+	path: "/create-account",
+	element: <AccountCreation />,
   },
   {
-    path: "/sign-up",
-    element: <SignUp />,
+	path: "privacy-policy",
+	element: <PrivacyPolicy />,
   },
   {
-    path: "/create-account",
-    element: <AccountCreation />,
+	path: "/events/:event",
+	element: <App />,
   },
   {
-    path: "privacy-policy",
-    element: <PrivacyPolicy />,
-  },
-  {
-    path: "/events/:event",
-    element: <App />,
-  },
-  {
-    path: "*",
-    element: <p>Page Not Found</p>,
+	path: "*",
+	element: <p>Page Not Found</p>,
   },
 ]);
 
 createRoot(document.querySelector("#root")).render(
   <StrictMode>
-    <nav>
-      <div id="nav-bar" className="flex v-center">
-        <a href="/"> Home </a>
-        <a href="/gamemodes">Gamemodes</a>
-        <a href="/account">Account</a>
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="https://discord.gg/5nYGQtqyBZ">Discord</a>
-      </div>
-    </nav>
-    <div id="background-container">
-      <div id="background" />
-    </div>
-    <RouterProvider router={router} />
+	<nav>
+	  <div id="nav-bar" className="flex v-center">
+		<a href="/"> Home </a>
+		<a href="/gamemodes">Gamemodes</a>
+		<a href="/account">Account</a>
+		<a href="/privacy-policy">Privacy Policy</a>
+		<a href="https://discord.gg/5nYGQtqyBZ">Discord</a>
+	  </div>
+	</nav>
+	<div id="background-container">
+	  <div id="background" />
+	</div>
+	<RouterProvider router={router} />
   </StrictMode>
 );

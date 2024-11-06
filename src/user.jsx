@@ -53,20 +53,18 @@ export function Account() {
           name_class = "rainbow";
         }
         elements.push(
-          <>
-            <div className="board-row">
-              <div className="board account-header flex v-center">
-                <img src={blook_image} alt="blook"></img>
-                <div className="flex column">
-                  <h2 className={name_class}>
-                    {selected_user_data.display_name}
-                  </h2>
-                  <p>{selected_user_data.blooket_stats.name}</p>
-                  <p>{selected_user_data.created_at.slice(0, 10)}</p>
-                </div>
+          <div className="board-row">
+            <div className="board account-header flex v-center">
+              <img src={blook_image} alt="blook" />
+              <div className="flex column">
+                <h2 className={name_class}>
+                  {selected_user_data.display_name}
+                </h2>
+                <p>{selected_user_data.blooket_stats.name}</p>
+                <p>{selected_user_data.created_at.slice(0, 10)}</p>
               </div>
             </div>
-          </>
+          </div>
         );
 
         //Stats and Runs
@@ -119,39 +117,35 @@ export function Account() {
             run_name += firstUppercase(element) + " ";
           }
           runs_elements.push(
-            <>
-              <div className="board-button flex between v-center">
-                <h2>{run_name}</h2>
-                <p>
-                  {Object.getOwnPropertyDescriptor(
-                    runs,
-                    element
-                  ).value.toLocaleString()}
-                </p>
-              </div>
-            </>
+            <div className="board-button flex between v-center">
+              <h2>{run_name}</h2>
+              <p>
+                {Object.getOwnPropertyDescriptor(
+                  runs,
+                  element
+                ).value.toLocaleString()}
+              </p>
+            </div>
           );
         }
 
         elements.push(
-          <>
-            <div className="board-row">
-              <div className="board flex v-center">
-                <div className="board-title">
-                  <h2>Stats</h2>
-                </div>
-                <div className="board-contents flex h-center around scrollable">
-                  {stat_elements}
-                </div>
+          <div className="board-row">
+            <div className="board flex v-center">
+              <div className="board-title">
+                <h2>Stats</h2>
               </div>
-              <div className="board flex v-center">
-                <div className="board-title">
-                  <h2>Runs</h2>
-                </div>
-                <div className="board-contents scrollable">{runs_elements}</div>
+              <div className="board-contents flex h-center around scrollable">
+                {stat_elements}
               </div>
             </div>
-          </>
+            <div className="board flex v-center">
+              <div className="board-title">
+                <h2>Runs</h2>
+              </div>
+              <div className="board-contents scrollable">{runs_elements}</div>
+            </div>
+          </div>
         );
 
         if (globalThis.location.pathname == "/account") {
@@ -190,7 +184,7 @@ function Settings() {
             className="inputs"
             type="text"
             placeholder="Blooket Stats Here!"
-          ></input>
+          />
           <button
             id="account-submit"
             className="inputs"
@@ -226,13 +220,13 @@ function LoginRedirect() {
                 className="inputs"
                 type="email"
                 placeholder="Email"
-              ></input>
+              />
               <input
                 id="password-input"
                 className="inputs"
                 type="password"
                 placeholder="Password"
-              ></input>
+              />
               <button
                 id="user-submit"
                 className="inputs"
@@ -359,7 +353,7 @@ export function AccountCreation() {
                 className="inputs"
                 type="text"
                 placeholder="Paste Here!"
-              ></input>
+              />
               <button
                 id="account-submit"
                 className="inputs"
@@ -377,17 +371,15 @@ export function AccountCreation() {
 }
 
 async function getUser(user_name) {
-  const { data, error } = await supabase.from("Users").select();
+  const { data, error } = await supabase
+    .from("Users")
+    .select()
+    .eq("display_name", user_name);
   if (error) {
     console.error(error);
-    return;
-  } else {
-    for (const element of data) {
-      if (element.display_name == user_name) {
-        return element;
-      }
-    }
+    throw error;
   }
+  return data;
 }
 
 async function userLogIn() {
@@ -399,8 +391,8 @@ async function userLogIn() {
     password: password,
   });
   if (error) {
-    alert(error);
-    return;
+    console.error(error);
+    throw error;
   }
   globalThis.location.reload();
 }
@@ -409,7 +401,7 @@ async function userLogOut() {
   const { error } = await supabase.auth.signOut();
   if (error) {
     console.error(error);
-    return;
+    throw error;
   }
   alert("You have been successfully logged out!");
   globalThis.location.assign("/");
@@ -445,7 +437,7 @@ async function signUpData() {
   getUsers().then((users) => {
     for (const user of users) {
       user_array.push(user.display_name);
-    };
+    }
     if (user_array.includes(username)) {
       alert("Username is already taken.\nPlease pick a new name!");
       return;
@@ -496,6 +488,7 @@ async function updateStats() {
     .eq("display_name", user.user_metadata.user_name);
   if (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -523,8 +516,7 @@ async function accountSignUp() {
     blooket_runs: {},
   });
   if (error) {
-    alert(error);
-    return;
+    console.error(error);
   }
   globalThis.location.assign("/");
 }
