@@ -21,3 +21,6 @@
   background-image: url("./assets/backgrounds/coc_2023.png");
   background-color: transparent;
 }
+#background-container.coc-2022 {
+  background-color: #373841;
+}

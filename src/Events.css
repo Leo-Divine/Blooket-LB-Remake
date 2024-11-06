@@ -9,7 +9,7 @@
   background-color: #f23941;
   font-size: 1.25em;
 }
-.coc-2023 .ranking-box + .ranking-box {
+.coc-2023 .ranking-box+.ranking-box {
   background-color: #0cb04a;
 }
 .coc-2023 .ranking-box:before {
@@ -23,4 +23,15 @@
   right: 5px;
   bottom: 5px;
   pointer-events: none;
+}
+
+.coc-2022 {
+  font-family: Merriweather Sans;
+}
+.coc-2022 .ranking-box {
+  background-color: #3d3e47;
+  width: 70%;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 15px;
 }

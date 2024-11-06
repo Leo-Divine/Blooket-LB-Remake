@@ -23,7 +23,7 @@ export function CoC2023() {
 
       //Put the rankingElements into pairs
       const elements = [];
-      for(let i = 0; i < leaderboard.length; i += 2) {
+      for (let i = 0; i < leaderboard.length; i += 2) {
         elements.push(
           <div key={i} className="flex h-center">
             {rankingElements[i]}
@@ -31,7 +31,7 @@ export function CoC2023() {
           </div>
         );
       }
-        
+
       setState(elements);
     });
   }, []);
@@ -49,6 +49,39 @@ export function CoC2023() {
   );
 }
 
+export function CoC2022() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("coc_2022").then((leaderboard) => {
+      const elements = [];
+      for (let i = 0; i < leaderboard.length; i++) {
+        const data = leaderboard[i];
+        elements.push(
+          <div key={i} className="ranking-box flex between">
+            <h3>{`${ordinalNumber(i + 1)}. ${data.name}`}</h3>
+            <p>{`${data.toys} Toys`}</p>
+
+          </div>
+        );
+      }
+      setState(elements);
+    });
+  }, []);
+
+  return (
+    <>
+      <header className="text-center">
+        <h1>Contest of Candy 2022</h1>
+      </header>
+      <main>
+        <div className="coc-2022 flex column v-center">
+          {state}
+        </div>
+      </main>
+    </>
+  );
+}
+
 async function getEventLeaderboard(event) {
   const response = await fetch(`/data/${event}.json`);
   const JSON = await response.json();
@@ -57,15 +90,16 @@ async function getEventLeaderboard(event) {
 
 function ordinalNumber(num) {
   let j = num % 10,
-      k = num % 100;
+    k = num % 100;
   if (j === 1 && k !== 11) {
-      return `${num}st`;
+    return `${num}st`;
   }
   if (j === 2 && k !== 12) {
-      return `${num}nd`;
+    return `${num}nd`;
   }
   if (j === 3 && k !== 13) {
-      return `${num}rd`;
+    return `${num}rd`;
   }
   return `${num}th`;
 }
+

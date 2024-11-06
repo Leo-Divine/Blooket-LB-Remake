@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { NavBar, BackNavBar } from './Navagation.jsx';
-import { Background, CoC2023Background } from './Background.jsx';
+import { NavBar, BackNavBar, CoC2022NavBar } from './Navagation.jsx';
+import { Background, CoC2023Background, CoC2022Background } from './Background.jsx';
 import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
-import { CoC2023 } from './Events.jsx';
+import { CoC2023, CoC2022 } from './Events.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -99,6 +99,15 @@ const router = createBrowserRouter([
       <NavBar />
       <CoC2023Background />
       <CoC2023 />
+    </>,
+  },
+  {
+    path: "/events/coc2022",
+    action: ({ params }) => { },
+    element: <>
+      <CoC2022NavBar />
+      <CoC2022Background />
+      <CoC2022 />
     </>,
   },
   {

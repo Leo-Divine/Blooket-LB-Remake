@@ -12,6 +12,10 @@ nav {
   justify-content: flex-end;
   z-index: 3;
 }
+#nav-bar.coc-2022 {
+  background-color: #2b2b2b;
+  box-shadow: 0px 0px 0px 10px #1b1b1b;
+}
 
 #nav-bar > a {
   margin: 5px;
