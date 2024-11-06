@@ -34,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/gamemodes/:gamemode",
-    action: ({ params }) => { },
+
     element: <>
       <NavBar />
       <Background />
@@ -43,7 +43,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/gamemodes/:gamemode/:leaderboard",
-    action: ({ params }) => { },
     element: <>
       <BackNavBar />
       <Background />
@@ -52,7 +51,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/account",
-    action: ({ params }) => { },
     element: <>
       <NavBar />
       <Background />
@@ -62,7 +60,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/account/:user",
-    action: ({ params }) => { },
     element: <>
       <NavBar />
       <Background />
@@ -94,7 +91,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/events/coc2023",
-    action: ({ params }) => { },
     element: <>
       <NavBar />
       <CoC2023Background />
@@ -103,7 +99,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/events/coc2022",
-    action: ({ params }) => { },
     element: <>
       <CoC2022NavBar />
       <CoC2022Background />
@@ -112,7 +107,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/events/lunch",
-    action: ({ params }) => { },
     element: <>
       <NavBar />
       <LunchBackground />

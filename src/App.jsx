@@ -812,7 +812,6 @@ export function PrivacyPolicy() {
 
 async function getGamemode(g) {
   const { data, error } = await supabase.from('Leaderboards').select();
-
   if (error) {
     console.error(error);
   } else {
@@ -881,7 +880,7 @@ async function userLogIn() {
   const email = document.getElementById("email-input").value;
   const password = document.getElementById("password-input").value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
   });
@@ -895,8 +894,7 @@ async function userLogIn() {
 async function userLogOut() {
   const { error } = await supabase.auth.signOut();
   if (error) {
-    console.error(error);
-    return;
+    throw error;
   }
   alert("You have been successfully logged out!");
   window.location.href = "/";
