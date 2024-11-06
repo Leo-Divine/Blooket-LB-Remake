@@ -2,8 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavBar, BackNavBar } from './Navagation.jsx';
-import { Background } from './Background.jsx';
+import { Background, CoC2023Background } from './Background.jsx';
 import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
+import { CoC2023 } from './Events.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
       <NavBar />
       <Background />
       <Account />
-      
+
     </>,
   },
   {
@@ -87,13 +88,18 @@ const router = createBrowserRouter([
   {
     path: "/privacy-policy",
     element: <>
+      <NavBar />
       <PrivacyPolicy />
     </>,
   },
   {
-    path: "/events/:event",
+    path: "/events/coc2023",
     action: ({ params }) => { },
-    element: <App />,
+    element: <>
+      <NavBar />
+      <CoC2023Background />
+      <CoC2023 />
+    </>,
   },
   {
     path: "*",

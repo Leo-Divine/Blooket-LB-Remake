@@ -16,3 +16,8 @@
   transform: translate(-50%, -50%) rotate(15deg);
   opacity: 0.15;
 }
+
+#background-container.coc-2023 {
+  background-image: url("./assets/backgrounds/coc_2023.png");
+  background-color: transparent;
+}

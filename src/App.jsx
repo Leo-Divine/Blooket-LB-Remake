@@ -80,7 +80,7 @@ export function App() {
               <h2>Events</h2>
             </div>
             <div className="board-contents scrollable">
-              <div className="board-button flex v-center between">
+              <div className="board-button flex v-center between" onClick={selectEvent.bind(this, "coc2023")}>
                 <h2>CoC 2023</h2>
                 <p>8-Dec-23 - 9-Dec-23</p>
               </div>
@@ -990,6 +990,10 @@ async function accountSignUp() {
     return;
   }
   window.location.href = "/";
+}
+
+function selectEvent(event) {
+  window.location.href = `/events/${event}`;
 }
 
 function selectLeaderboard(gamemode, path) {

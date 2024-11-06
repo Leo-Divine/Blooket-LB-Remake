@@ -9,3 +9,11 @@ export function Background() {
     </>
   );
 }
+
+export function CoC2023Background() {
+  return (
+    <>
+      <div id="background-container" className="coc-2023"></div>
+    </>
+  );
+}
