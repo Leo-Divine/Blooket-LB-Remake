@@ -2,9 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavBar, BackNavBar, CoC2022NavBar } from './Navagation.jsx';
-import { Background, CoC2023Background, CoC2022Background } from './Background.jsx';
+import { Background, CoC2023Background, CoC2022Background, LunchBackground } from './Background.jsx';
 import { App, Gamemodes, GamemodePage, LeaderboardPage, Account, SignUp, AccountCreation, PrivacyPolicy } from './App.jsx';
-import { CoC2023, CoC2022 } from './Events.jsx';
+import { CoC2023, CoC2022, LUNCH } from './Events.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -108,6 +108,15 @@ const router = createBrowserRouter([
       <CoC2022NavBar />
       <CoC2022Background />
       <CoC2022 />
+    </>,
+  },
+  {
+    path: "/events/lunch",
+    action: ({ params }) => { },
+    element: <>
+      <NavBar />
+      <LunchBackground />
+      <LUNCH />
     </>,
   },
   {

@@ -60,7 +60,6 @@ export function CoC2022() {
           <div key={i} className="ranking-box flex between">
             <h3>{`${ordinalNumber(i + 1)}. ${data.name}`}</h3>
             <p>{`${data.toys} Toys`}</p>
-
           </div>
         );
       }
@@ -75,6 +74,42 @@ export function CoC2022() {
       </header>
       <main>
         <div className="coc-2022 flex column v-center">
+          {state}
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function LUNCH() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("lunch").then((leaderboard) => {
+      const elements = [];
+      for (let i = 0; i < leaderboard.length; i++) {
+        const data = leaderboard[i];
+        const img_source = `https://flagicons.lipis.dev/flags/4x3/${data.flag}.svg`;
+        elements.push(
+          <div key={i} className="ranking-box flex">
+            <img src={img_source} alt="Flag" />
+            <div>
+              <h3>{data.name}</h3>
+              <h4>{`${data.score.toLocaleString()}🏆`}</h4>
+              <h4>{ordinalNumber(i + 1)}</h4>
+            </div>
+          </div>
+        );
+      }
+      setState(elements);
+    });
+  }, []);
+  return (
+    <>
+      <header className="text-center">
+        <h1>Legendary Universal Never-Before-Seen Championships of Hockey</h1>
+      </header>
+      <main>
+        <div className="lunch flex around">
           {state}
         </div>
       </main>

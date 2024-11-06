@@ -17,10 +17,19 @@ export function CoC2023Background() {
     </>
   );
 }
+
 export function CoC2022Background() {
   return (
     <>
       <div id="background-container" className="coc-2022"></div>
+    </>
+  );
+}
+
+export function LunchBackground() {
+  return (
+    <>
+      <div id="background-container" className="lunch"></div>
     </>
   );
 }

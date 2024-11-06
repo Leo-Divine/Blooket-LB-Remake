@@ -35,3 +35,22 @@ main .coc-2022 {
   border-radius: 5px;
   padding: 15px;
 }
+
+.lunch .ranking-box {
+  background-color: white;
+  width: 400px;
+  margin: 10px;
+  color: grey;
+  border-radius: 10px;
+  border-bottom: solid 5px #e5e5e5;
+  padding: 5px;
+  font-size: 0.9em;
+}
+.lunch .ranking-box h3 {
+  color: black;
+}
+.lunch .ranking-box img {
+  width: 80px;
+  border-radius: 12px;
+  margin: 5px;
+}
