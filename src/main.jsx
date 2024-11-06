@@ -6,10 +6,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-globalThis.addEventListener("error", (event) => {
-  alert(JSON.stringify(event) + "Hello");
-});
-
 const router = createBrowserRouter([
   {
 	path: "/",
