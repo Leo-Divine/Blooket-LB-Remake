@@ -1,16 +1,18 @@
 {
   "name": "blooketleaderboards",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "stylelint": "stylelint **/*.css",
     "preview": "vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.6",
+    "eslint-plugin-unicorn": "^56.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0"
@@ -25,6 +27,8 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.13",
     "globals": "^15.11.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
     "vite": "^5.4.9"
   }
 }

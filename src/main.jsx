@@ -1,130 +1,55 @@
+import "./index.css";
+import { App, PrivacyPolicy } from "./app.jsx";
+import { GamemodePage, Gamemodes, LeaderboardPage } from "./game.jsx";
+import { Account, AccountCreation, SignUp } from "./user.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { NavBar, BackNavBar } from "./Navagation.jsx";
-import { Background } from "./Background.jsx";
-import {
-  App,
-  Gamemodes,
-  GamemodePage,
-  LeaderboardPage,
-  Account,
-  SignUp,
-  AccountCreation,
-  PrivacyPolicy,
-} from "./App.jsx";
-import "./index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <NavBar />
-        <Background />
-        <App />
-      </>
-    ),
-    children: [
-      {
-        path: "/home",
-        element: (
-          <>
-            <NavBar />
-            <Background />
-            <App />
-          </>
-        ),
-      },
-      {
-        path: "/gamemodes",
-        element: (
-          <>
-            <NavBar />
-            <Background />
-            <Gamemodes />
-          </>
-        ),
-        children: [
-          {
-            path: "/gamemodes/:gamemode",
-            element: (
-              <>
-                <NavBar />
-                <Background />
-                <GamemodePage />
-              </>
-            ),
-            children: [
-              {
-                path: "/gamemodes/:gamemode/:leaderboard",
-                element: (
-                  <>
-                    <BackNavBar />
-                    <Background />
-                    <LeaderboardPage />
-                  </>
-                ),
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "/account",
-        element: (
-          <>
-            <NavBar />
-            <Background />
-            <Account />
-          </>
-        ),
-        children: [
-          {
-            path: "/account/:user",
-            element: (
-              <>
-                <NavBar />
-                <Background />
-                <Account />
-              </>
-            ),
-          },
-        ],
-      },
-      {
-        path: "/sign-up",
-        element: (
-          <>
-            <NavBar />
-            <Background />
-            <SignUp />
-          </>
-        ),
-      },
-      {
-        path: "/create-account",
-        element: (
-          <>
-            <NavBar />
-            <Background />
-            <AccountCreation />
-          </>
-        ),
-      },
-      {
-        path: "/privacy-policy",
-        element: (
-          <>
-            <PrivacyPolicy />
-          </>
-        ),
-      },
-      {
-        path: "/events/:event",
-        element: <App />,
-      },
-    ],
+    element: <App />,
+  },
+  {
+    path: "/home",
+    element: <App />,
+  },
+  {
+    path: "/gamemodes",
+    element: <Gamemodes />,
+  },
+  {
+    path: "/gamemodes/:gamemode",
+    element: <GamemodePage />,
+  },
+  {
+    path: "/gamemodes/:gamemode/:leaderboard",
+    element: <LeaderboardPage />,
+  },
+  {
+    path: "/account",
+    element: <Account />,
+  },
+  {
+    path: "/account/:user",
+    element: <Account />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />,
+  },
+  {
+    path: "/create-account",
+    element: <AccountCreation />,
+  },
+  {
+    path: "privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "/events/:event",
+    element: <App />,
   },
   {
     path: "*",
@@ -132,8 +57,20 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.querySelector("#root")).render(
   <StrictMode>
+    <nav>
+      <div id="nav-bar" className="flex v-center">
+        <a href="/"> Home </a>
+        <a href="/gamemodes">Gamemodes</a>
+        <a href="/account">Account</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="https://discord.gg/5nYGQtqyBZ">Discord</a>
+      </div>
+    </nav>
+    <div id="background-container">
+      <div id="background" />
+    </div>
     <RouterProvider router={router} />
   </StrictMode>
 );

@@ -1,7 +1,7 @@
 header {
   margin: 40px;
   font-size: 1.75em;
-  text-shadow: 3px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 3px 3px rgb(0 0 0 / 40%);
 }
 
 .board-row {
@@ -11,9 +11,11 @@ header {
   justify-content: center;
   margin: 20px;
 }
+
 .board-row:has(.board.leaderboard) {
   grid-auto-columns: 100%;
 }
+
 .board {
   position: relative;
   min-height: 100px;
@@ -25,24 +27,56 @@ header {
   font-size: 1.15em;
   flex-direction: column;
 }
+
 .board a {
   color: darkgrey;
 }
+
 .board a:visited {
   color: #959595;
 }
+
 .board.leaderboard {
   padding:0;
 }
+
 .board.account-header {
   flex-direction: row;
 }
+
 .board.account-header > * {
   margin: 5px;
 }
+
+.lb-table img {
+  width: 50px;
+  margin-right: 5px;
+}
+
+.board-button img {
+  width: 45px;
+  transform: rotate(-15deg);
+  margin-right: 5px;
+}
+
+.gamemode-container {
+  width: 90%;
+  height: 100%;
+}
+
+.gamemode-container img {
+  width: 270px;
+  transition-duration: 0.2s;
+}
+
+.gamemode-container img:hover {
+  transform: scale(1.1);
+}
+
 .board.account-header > img {
   width: 100px;
 }
+
 .board-title {
   position: absolute;
   top: -40px;
@@ -53,6 +87,7 @@ header {
   text-shadow: -1px -1px 0 #646464, 1px -1px 0 #646464, -1px 1px 0 #646464,
     2px 2px 0 #646464;
 }
+
 .board-contents {
   width: 100%;
   height: 100%;
@@ -61,20 +96,17 @@ header {
 
 .board-button {
   background-color: #9a49aa;
-  margin: 5px 0px;
+  margin: 5px 0;
   padding: 5px;
   border-radius: 7px;
   transition: background-color 0.2s;
 }
+
 .board-button:hover {
   cursor: pointer;
   background-color: #7b3a88;
 }
-.board-button img {
-  width: 45px;
-  transform: rotate(-15deg);
-  margin-right: 5px;
-}
+
 .board-stat {
   background-color: #9a49aa;
   border-radius: 7px;
@@ -85,65 +117,58 @@ header {
   margin: 5px;
 }
 
-.gamemode-container {
-  width: 90%;
-  height: 100%;
-}
-.gamemode-container img {
-  width: 270px;
-  transition-duration: 0.2s;
-}
-.gamemode-container img:hover {
-  transform: scale(1.1);
-}
-
 .lb {
   width: 100%;
   overflow-x: scroll;
 }
+
 .lb-table {
   width: 100%;
   border-radius: 10px;
 }
+
 .lb-table p {
   font-size: 1.25em;
   white-space: nowrap;
 }
+
 .lb-table td {
   margin: 3px;
 }
+
 .lb-table thead td {
   background-color: #9a49aa;
   text-align: center;
   font-size: 0.9em;
 }
+
 .lb-table .lb-lock {
   position: sticky;
   z-index: 2;
   left: 0;
 }
+
 .lb-table tbody .lb-lock {
   background-color:#40115f;
   cursor: pointer;
 }
+
 .lb-table .lb-top-left {
   border-top-left-radius: 10px;
 }
+
 .lb-table .lb-top-right {
   border-top-right-radius: 10px;
 }
-.lb-table img {
-  width: 50px;
-  margin-right: 5px;
-}
 
 label {
-  margin: 0px 5px;
+  margin: 0 5px;
 }
+
 .inputs {
   font-size: 1.5em;
   border-radius: 10px;
-  font-family: Titan One;
+  font-family: "Titan One", sans-serif;
   background-color: #9a49aa;
   color: white;
   border: none;
@@ -163,7 +188,7 @@ label {
 }
 
 .rainbow {
-  text-shadow: 2px 2px 4px #000000;
+  text-shadow: 2px 2px 4px #000;
   animation: rainbow 5s infinite;
 }
 
@@ -171,77 +196,99 @@ label {
   0% {
     color: #ffa500;
   }
+
   5% {
-    color: #ff0000
+    color: #f00
   }
+
   10% {
     color: #ff0062;
   }
+
   15% {
-    color: #ff00ff;
+    color: #f0f;
   }
+
   20% {
-    color: #ff0000;
+    color: #f00;
   }
+
   25% {
-    color: #7700ff;
+    color: #70f;
   }
+
   30% {
     color: #98fcff;
   }
+
   35% {
     color: #90ee90;
   }
+
   40% {
-    color: #ffff00;
+    color: #ff0;
   }
+
   45% {
     color: #ffa500;
   }
+
   50% {
     color: #d9ff00;
   }
+
   55% {
     color:#9acd32;
   }
+
   60% {
-    color: #00ff00;
+    color: #0f0;
   }
+
   65% {
     color: aquamarine;
   }
+
   70% {
     color: cyan;
   }
+
   75% {
-    color: #7700ff;
+    color: #70f;
   }
+
   80% {
     color: #ff1493;
   }
+
   85% {
-    color: #8471ff'
+    color: #8471ff;
   }
+
   90% {
     color: #1e90ff;
   }
+
   95% {
-    color: #ffff00;
+    color: #ff0;
   }
+
   100% {
     color: #ffa500;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   header {
     font-size: 5vw;
   }
+
   .board-row {
     display: flex;
     flex-direction: column;
-    margin: 0px;
+    margin: 0;
   }
+
   .board {
     margin: 30px 20px;
   }
@@ -249,6 +296,7 @@ label {
   .board.account-header {
     flex-direction: column;
   }
+
   .board.account-header > div {
     text-align: center;
   }
