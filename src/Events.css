@@ -53,4 +53,5 @@ main .coc-2022 {
   width: 80px;
   border-radius: 12px;
   margin: 5px;
+  object-fit: cover;
 }

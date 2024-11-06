@@ -88,7 +88,12 @@ export function LUNCH() {
       const elements = [];
       for (let i = 0; i < leaderboard.length; i++) {
         const data = leaderboard[i];
-        const img_source = `https://flagicons.lipis.dev/flags/4x3/${data.flag}.svg`;
+        let img_source;
+        if(data.flag == "cor") {
+          img_source = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Flag_of_Corsica.svg/1200px-Flag_of_Corsica.svg.png";
+        } else {
+          img_source = `https://flagicons.lipis.dev/flags/4x3/${data.flag}.svg`;
+        }
         elements.push(
           <div key={i} className="ranking-box flex">
             <img src={img_source} alt="Flag" />
