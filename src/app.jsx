@@ -3,75 +3,68 @@ import "./app.css";
 export function App() {
 	return (
 		<>
-			<header className="text-center">
-				<h1>Blooket Leaderboards</h1>
-			</header>
-			<main>
-				<div className="board-row">
-					<div className="board flex h-center v-center">
-						<div className="board-title">
-							<h2>What is This?</h2>
-						</div>
-						<div className="board-contents">
-							<p>
-								Blooket Leaderboards is a website that showcases leaderboards
-								ranking the achievements of many different blooket players. You
-								can see leaderboards from a wide variety of different
-								categories, from gamemodes, to stats, even to the leaderboards
-								from blooket events. This website is here to showcase the skill
-								of any and all blooket players.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div className="board-row">
-					<div className="board flex v-center">
-						<div className="board-title">
-							<h2>Events</h2>
-						</div>
-						<div className="board-contents scrollable">
-							<div className="board-button flex v-center between">
-								<h2>CoC 2023</h2>
-								<p>8-Dec-23 - 9-Dec-23</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>CoC 2022</h2>
-								<p>29-Oct-22 - 30-Oct-22</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>L.U.N.C.H</h2>
-								<p>5-Mar-22 - 5-Mar-22</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>PoP</h2>
-								<p>11-Dec-21 - 12-Dec-21</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>CoC 2021</h2>
-								<p>24-Oct-21 - 24-Oct-21</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>PAC</h2>
-								<p>3-Aug-21 - 7-Aug-21</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>CoC 2020</h2>
-								<p>26-Oct-20 - 26-Oct-20</p>
-							</div>
-							<div className="board-button flex v-center between">
-								<h2>CoC 2019</h2>
-								<p>28-Oct-19 - 8-Nov-19</p>
-							</div>
-						</div>
-					</div>
-					<div className="board flex v-center">
-						<div className="board-title">
-							<h2>Most Popular</h2>
-						</div>
-					</div>
-				</div>
-			</main>
-		</>
+      <header className="text-center">
+        <h1>Blooket Leaderboards</h1>
+      </header>
+      <main>
+        <div className="board-row">
+          <div className="board flex h-center v-center">
+            <div className="board-title">
+              <h2>What is This?</h2>
+            </div>
+            <div className="board-contents">
+              <p>Blooket Leaderboards is a website that showcases leaderboards ranking the achievements of many different blooket players. You can see leaderboards from a wide variety of different categories, from gamemodes, to stats, even to the leaderboards from blooket events. This website is here to showcase the skill of any and all blooket players.</p>
+            </div>
+          </div>
+        </div>
+        <div className="board-row">
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Events</h2>
+            </div>
+            <div className="board-contents scrollable">
+              <div className="board-button flex v-center between" onClick={() => globalThis.location.assign("/events/coc2023")}>
+                <h2>CoC 2023</h2>
+                <p>8-Dec-23 - 9-Dec-23</p>
+              </div>
+              <div className="board-button flex v-center between" onClick={() => globalThis.location.assign("/events/coc2022")}>
+                <h2>CoC 2022</h2>
+                <p>29-Oct-22 - 30-Oct-22</p>
+              </div>
+              <div className="board-button flex v-center between" onClick={() => globalThis.location.assign("/events/lunch")}>
+                <h2>L.U.N.C.H</h2>
+                <p>5-Mar-22 - 5-Mar-22</p>
+              </div>
+              <div className="board-button flex v-center between">
+                <h2>PoP</h2>
+                <p>11-Dec-21 - 12-Dec-21</p>
+              </div>
+              <div className="board-button flex v-center between">
+                <h2>CoC 2021</h2>
+                <p>24-Oct-21 - 24-Oct-21</p>
+              </div>
+              <div className="board-button flex v-center between">
+                <h2>PAC</h2>
+                <p>3-Aug-21 - 7-Aug-21</p>
+              </div>
+              <div className="board-button flex v-center between">
+                <h2>CoC 2020</h2>
+                <p>26-Oct-20 - 26-Oct-20</p>
+              </div>
+              <div className="board-button flex v-center between">
+                <h2>CoC 2019</h2>
+                <p>28-Oct-19 - 8-Nov-19</p>
+              </div>
+            </div>
+          </div>
+          <div className="board flex v-center">
+            <div className="board-title">
+              <h2>Most Popular</h2>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
 	);
 }
 

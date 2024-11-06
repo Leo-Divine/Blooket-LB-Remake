@@ -376,10 +376,9 @@ async function getUser(user_name) {
     .select()
     .eq("display_name", user_name);
   if (error) {
-    console.error(error);
     throw error;
   }
-  return data;
+  return data[0];
 }
 
 async function userLogIn() {

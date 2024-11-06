@@ -1,15 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
-import factoryLogo from "./assets/game_logos/Factory_Logo.webp";
-import monsterBrawlLogo from "./assets/game_logos/Monster_Brawl_Logo.webp";
-import fishingFrenzyLogo from "./assets/game_logos/Fishing_Frenzy_Logo.webp";
-import towerDefenseLogo from "./assets/game_logos/Tower_Defense_Logo.webp";
-import towerDefense2Logo from "./assets/game_logos/Tower_Defense_2_Logo.webp";
-import cafeLogo from "./assets/game_logos/Cafe_Logo.webp";
-import crazyKingdomLogo from "./assets/game_logos/Crazy_Kingdom_Logo.webp";
-import statsLogo from "./assets/game_logos/Stats_Logo.png";
-import extrasLogo from "./assets/game_logos/Extras_Logo.png";
-import BElite from "./assets/B-Elite.png";
+export { default as monsterBrawlLogo } from "./assets/game_logos/Monster_Brawl_Logo.webp";
+export { default as factoryLogo } from "./assets/game_logos/Factory_Logo.webp";
+export { default as fishingFrenzyLogo } from "./assets/game_logos/Fishing_Frenzy_Logo.webp";
+export { default as towerDefenseLogo } from "./assets/game_logos/Tower_Defense_Logo.webp";
+export { default as towerDefense2Logo } from "./assets/game_logos/Tower_Defense_2_Logo.webp";
+export { default as cafeLogo } from "./assets/game_logos/Cafe_Logo.webp";
+export { default as crazyKingdomLogo } from "./assets/game_logos/Crazy_Kingdom_Logo.webp";
+export { default as statsLogo } from "./assets/game_logos/Stats_Logo.png";
+export { default as extrasLogo } from "./assets/game_logos/Extras_Logo.png";
+export { default as BElite } from "./assets/B-Elite.png";
 
 import batIcon from "./assets/icons/bat.png";
 import calendarIcon from "./assets/icons/calendar.png";
@@ -98,66 +98,12 @@ export const icons = [
   );
 export default supabase;
 
-export {
-  factoryLogo,
-  monsterBrawlLogo,
-  fishingFrenzyLogo,
-  towerDefenseLogo,
-  towerDefense2Logo,
-  cafeLogo,
-  crazyKingdomLogo,
-  statsLogo,
-  extrasLogo,
-  BElite,
-  batIcon,
-  calendarIcon,
-  cashIcon,
-  checkIcon,
-  chickIcon,
-  cogIcon,
-  comboIcon,
-  controllerIcon,
-  damageIcon,
-  desertIcon,
-  dragonIcon,
-  elfIcon,
-  goldfishIcon,
-  fishIcon,
-  frenchtoastIcon,
-  goldIcon,
-  magnetIcon,
-  meadowIcon,
-  milkIcon,
-  mineIcon,
-  owlIcon,
-  personIcon,
-  pigIcon,
-  pizzaIcon,
-  pointsIcon,
-  squirrelIcon,
-  stopwatchIcon,
-  swordsIcon,
-  toastIcon,
-  tokenIcon,
-  trophyIcon,
-  unicornIcon,
-  unlockIcon,
-  waffleIcon,
-  wizardIcon,
-  xIcon,
-  yetiIcon,
-  flappyIcon,
-  gemIcon,
-};
-
 export async function getUsers() {
   const { data, error } = await supabase.from("Users").select();
-
   if (error) {
-    console.error(error);
-  } else {
-    return data;
+    throw error;
   }
+  return data;
 }
 
 export function firstUppercase(string) {

@@ -70,6 +70,11 @@ nav {
   z-index: 3;
 }
 
+#nav-bar.coc-2022 {
+  background-color: #2b2b2b;
+  box-shadow: 0 0 0 10px #1b1b1b;
+}
+
 #nav-bar > a {
   margin: 5px;
   transition-duration: 0.2s;
@@ -110,4 +115,17 @@ nav {
   background-image: url("https://i.ibb.co/7pgnc8y/blook-bg.png");
   transform: translate(-50%, -50%) rotate(15deg);
   opacity: 0.15;
+}
+
+#background-container.coc-2023 {
+  background-image: url("./assets/backgrounds/coc_2023.png");
+  background-color: transparent;
+}
+
+#background-container.coc-2022 {
+  background-color: #373841;
+}
+
+#background-container.lunch {
+  background-color: #ebebeb;
 }
