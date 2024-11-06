@@ -88,7 +88,7 @@ export function App() {
                 <h2>CoC 2022</h2>
                 <p>29-Oct-22 - 30-Oct-22</p>
               </div>
-              <div className="board-button flex v-center between">
+              <div className="board-button flex v-center between" onClick={selectEvent.bind(this, "lunch")}>
                 <h2>L.U.N.C.H</h2>
                 <p>5-Mar-22 - 5-Mar-22</p>
               </div>
