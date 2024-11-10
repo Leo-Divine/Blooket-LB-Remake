@@ -444,7 +444,11 @@ export function Account() {
       //Get data
       getUser(selected_user).then((selected_user_data) => {
         const elements = [];
-
+        if(!selected_user_data) {
+          elements.push(<Settings />);
+          setState(elements);
+          return;
+        }
         //Account Header
         let blook_image = `https://ac.blooket.com/marketassets/blooks/${(selected_user_data.blooket_stats.blook).replaceAll(" ", "").toLowerCase()}.svg`;
         let name_class = "";
@@ -968,9 +972,9 @@ async function updateStats() {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { error } = await supabase.from('Users').update({ blooket_stats: account_stats }).eq('display_name', user.user_metadata.user_name);
+  const { error } = await supabase.from('Users').upsert({ display_name: user.user_metadata.user_name, user_id: user.id, created_at: user.created_at, blooket_stats: account_stats, blooket_id: account_stats._id, blooket_runs: {} });
   if (error) {
-    console.error(error);
+    throw error;
   }
 }
 
