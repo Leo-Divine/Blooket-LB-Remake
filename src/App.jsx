@@ -971,8 +971,9 @@ async function updateStats() {
   }
 
   const { data: { user } } = await supabase.auth.getUser();
+  const user_stats = await getUser(user.user_metadata.user_name);
 
-  const { error } = await supabase.from('Users').upsert({ display_name: user.user_metadata.user_name, user_id: user.id, created_at: user.created_at, blooket_stats: account_stats, blooket_id: account_stats._id, blooket_runs: {} });
+  const { error } = await supabase.from('Users').upsert({ display_name: user.user_metadata.user_name, user_id: user.id, created_at: user.created_at, blooket_stats: account_stats, blooket_id: account_stats._id, blooket_runs: user_stats.blooket_runs });
   if (error) {
     throw error;
   }
