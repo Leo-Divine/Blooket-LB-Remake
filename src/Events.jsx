@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './Events.css';
+import './events.css';
 
 export function CoC2023() {
   const [state, setState] = useState([]);
@@ -7,26 +7,25 @@ export function CoC2023() {
     getEventLeaderboard("coc_2023").then((leaderboard) => {
       //Get an array of all ranking-box elements
       const rankingElements = [];
-      for (let i = 0; i < leaderboard.length; i++) {
-        const data = leaderboard[i];
+      for (const [index, data] of leaderboard.entries()) {
         const time_string = new Date(Date.parse(data.time));
         rankingElements.push(
-          <div key={i} className="ranking-box text-center">
-            <h2>{`${ordinalNumber(i + 1)} Place`}</h2>
+          <div key={index} className="ranking-box text-center">
+            <h2>{`${ordinalNumber(index + 1)} Place`}</h2>
             <h3>{data.name}</h3>
             <h4>Stickers: 108</h4>
-            <h6>{`Dec ${time_string.getDate()}th 2023, ${time_string.toTimeString().substring(0, 8)}`}</h6>
+            <h6>{`Dec ${time_string.getDate()}th 2023, ${time_string.toTimeString().slice(0, 8)}`}</h6>
           </div>
         );
       }
 
       //Put the rankingElements into pairs
       const elements = [];
-      for (let i = 0; i < leaderboard.length; i += 2) {
+      for (let index = 0; index < leaderboard.length; index += 2) {
         elements.push(
-          <div key={i} className="flex h-center">
-            {rankingElements[i]}
-            {rankingElements[i + 1]}
+          <div key={index} className="flex h-center">
+            {rankingElements[index]}
+            {rankingElements[index + 1]}
           </div>
         );
       }
@@ -53,11 +52,10 @@ export function CoC2022() {
   useEffect(() => {
     getEventLeaderboard("coc_2022").then((leaderboard) => {
       const elements = [];
-      for (let i = 0; i < leaderboard.length; i++) {
-        const data = leaderboard[i];
+      for (const [index, data] of leaderboard.entries()) {
         elements.push(
-          <div key={i} className="ranking-box flex between">
-            <h3>{`${ordinalNumber(i + 1)}. ${data.name}`}</h3>
+          <div key={index} className="ranking-box flex between">
+            <h3>{`${ordinalNumber(index + 1)}. ${data.name}`}</h3>
             <p>{`${data.toys} Toys`}</p>
           </div>
         );
@@ -85,21 +83,16 @@ export function LUNCH() {
   useEffect(() => {
     getEventLeaderboard("lunch").then((leaderboard) => {
       const elements = [];
-      for (let i = 0; i < leaderboard.length; i++) {
-        const data = leaderboard[i];
+      for (const [index, data] of leaderboard.entries()) {
         let img_source;
-        if(data.flag == "cor") {
-          img_source = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Flag_of_Corsica.svg/1200px-Flag_of_Corsica.svg.png";
-        } else {
-          img_source = `https://flagicons.lipis.dev/flags/4x3/${data.flag}.svg`;
-        }
+        img_source = data.flag == "cor" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Flag_of_Corsica.svg/1200px-Flag_of_Corsica.svg.png" : `https://flagicons.lipis.dev/flags/4x3/${data.flag}.svg`;
         elements.push(
-          <div key={i} className="ranking-box flex">
+          <div key={index} className="ranking-box flex">
             <img src={img_source} alt="Flag" />
             <div>
               <h3>{data.name}</h3>
               <h4>{`${data.score.toLocaleString()}🏆`}</h4>
-              <h4>{ordinalNumber(i + 1)}</h4>
+              <h4>{ordinalNumber(index + 1)}</h4>
             </div>
           </div>
         );
@@ -127,18 +120,17 @@ async function getEventLeaderboard(event) {
   return JSON;
 }
 
-function ordinalNumber(num) {
-  let j = num % 10,
-    k = num % 100;
-  if (j === 1 && k !== 11) {
-    return `${num}st`;
+function ordinalNumber(number_) {
+  let index = number_ % 10,
+    k = number_ % 100;
+  if (index === 1 && k !== 11) {
+    return `${number_}st`;
   }
-  if (j === 2 && k !== 12) {
-    return `${num}nd`;
+  if (index === 2 && k !== 12) {
+    return `${number_}nd`;
   }
-  if (j === 3 && k !== 13) {
-    return `${num}rd`;
+  if (index === 3 && k !== 13) {
+    return `${number_}rd`;
   }
-  return `${num}th`;
+  return `${number_}th`;
 }
-
