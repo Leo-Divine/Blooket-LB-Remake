@@ -4,7 +4,9 @@ import { createBrowserRouter, BrowserRouter, RouterProvider, Routes, Route } fro
 import { App, PrivacyPolicy } from "./App.jsx";
 import { GamemodePage, Gamemodes, LeaderboardPage } from "./Game.jsx";
 import { Account, AccountCreation, SignUp, SubmissionPage } from "./User.jsx";
-import { CoC2023, CoC2022, LUNCH } from './Events.jsx';
+import { CoC2023, CoC2022, LUNCH, PoP, PoPTeam } from './Events.jsx';
+import { FontAwesomeIcons } from "./common.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './index.css';
 
 const router = createBrowserRouter([
@@ -70,6 +72,14 @@ const router = createBrowserRouter([
     element: <LUNCH />,
   },
   {
+    path: "/events/pop",
+    element: <PoP />,
+  },
+  {
+    path: "/events/pop/:guild",
+    element: <PoPTeam />,
+  },
+  {
     path: "*",
     element: (
       <p>Page Not Found :(</p>
@@ -97,6 +107,14 @@ function Background() {
           element={<div id="background-container" className="coc-2023"></div>}
         />
         <Route
+          path="/events/pop"
+          element={<div id="background-container" className="pop"></div>}
+        />
+        <Route
+          path="/events/pop/*"
+          element={<div id="background-container" className="pop"></div>}
+        />
+        <Route
           path="*"
           element={
             <div id="background-container">
@@ -111,21 +129,34 @@ function Background() {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <nav>
-      <div
-        id="nav-bar"
-        className={`flex v-center ${
-          globalThis.location.pathname === "/events/coc2022" ? "coc-2022" : ""
-        }`}
-      >
-        <a href="/"> Home </a>
-        <a href="/gamemodes">Gamemodes</a>
-        <a href="/account">Account</a>
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="https://discord.gg/5nYGQtqyBZ">Discord</a>
-        {globalThis.location.pathname.includes("/gamemodes/") ? <a href="./">Back</a> : ""}
-      </div>
-    </nav>
+    {
+      globalThis.location.pathname.includes("/events/pop") ? 
+      <>
+      <nav>
+        <div className="flex" style={{justifyContent: "end"}}>
+          <FontAwesomeIcon className="pop nav-link" icon={FontAwesomeIcons.trophy} onClick={() => {globalThis.location.pathname = "./events/pop"}}></FontAwesomeIcon>
+          <FontAwesomeIcon className="pop nav-link" icon={FontAwesomeIcons.reply} onClick={() => {globalThis.location.pathname = "./"}}></FontAwesomeIcon>
+        </div>
+      </nav>
+      </> 
+      : 
+      <nav>
+        <div
+          id="nav-bar"
+          className={`flex v-center ${
+            globalThis.location.pathname === "/events/coc2022" ? "coc-2022" : ""
+          }`}
+        >
+          <a href="/"> Home </a>
+          <a href="/gamemodes">Gamemodes</a>
+          <a href="/account">Account</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="https://discord.gg/5nYGQtqyBZ">Discord</a>
+          {globalThis.location.pathname.includes("/gamemodes/") ? <a href="./">Back</a> : ""}
+        </div>
+      </nav>
+    }
+    
     <Background />
     <RouterProvider router={router} />
   </StrictMode>,

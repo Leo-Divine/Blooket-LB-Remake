@@ -1,12 +1,9 @@
-export { default as monsterBrawlLogo } from "./assets/game_logos/Monster_Brawl_Logo.webp";
-export { default as factoryLogo } from "./assets/game_logos/Factory_Logo.webp";
-export { default as fishingFrenzyLogo } from "./assets/game_logos/Fishing_Frenzy_Logo.webp";
-export { default as towerDefenseLogo } from "./assets/game_logos/Tower_Defense_Logo.webp";
-export { default as towerDefense2Logo } from "./assets/game_logos/Tower_Defense_2_Logo.webp";
-export { default as cafeLogo } from "./assets/game_logos/Cafe_Logo.webp";
-export { default as crazyKingdomLogo } from "./assets/game_logos/Crazy_Kingdom_Logo.webp";
-export { default as statsLogo } from "./assets/game_logos/Stats_Logo.png";
-export { default as extrasLogo } from "./assets/game_logos/Extras_Logo.png";
+import { faUsers, faReply, faTrophy } from "@fortawesome/free-solid-svg-icons";
+export const FontAwesomeIcons = {
+  users: faUsers,
+  reply: faReply,
+  trophy: faTrophy,
+}
 
 import BElite from "./assets/B-Elite.png";
 import batIcon from "./assets/icons/bat.png";

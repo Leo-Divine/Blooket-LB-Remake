@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
+import { FontAwesomeIcons } from "./common.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './events.css';
 
 export function CoC2023() {
@@ -111,6 +114,81 @@ export function LUNCH() {
         </div>
       </main>
     </>
+  );
+}
+
+export function PoP() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("pop").then((guilds) => {
+      setState(guilds.map((guild, index) => (
+        <div className="container guild" onClick={() => {globalThis.location.pathname = `/events/pop/${guild._id}`}}>
+          <h3>{ordinalNumber(index + 1)}</h3>
+          <img className="container" src={`/src/assets/pop/pop_emblems/emblem${guild.emblemIndex + 1}.png`}></img>
+          <h3 className="name">{guild.name}</h3>
+          <div className="flex v-center nowrap">
+            <h3>{guild.gold.toLocaleString()}</h3>
+            <img src="/src/assets/pop/gold.png" alt="Gold"></img>
+          </div>
+        </div>
+      )));
+    });
+  }, []);
+
+  return (
+    <>
+      <header className="flex h-center">
+        <img className="pop-logo" src="/src/assets/pop/pop_logo.png" alt="PoP Logo"></img>
+      </header>
+      <main>
+        <div className="pop flex column v-center">
+          {state}
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function PoPTeam() {
+  let parameters = useParams();
+  const [state, setState] = useState([]);
+
+  useEffect(() => {
+    getEventLeaderboard("pop").then((guilds) => {
+      const guild = guilds.find((x) => x._id == parameters.guild);
+
+      setState(
+        <>
+          <div className="container header">
+            <img className="container emblem" src={`/src/assets/pop/pop_emblems/emblem${guild.emblemIndex + 1}.png`}></img>
+            <div className="name" style={{alignSelf: "flex-start"}}>
+              <h3>{guild.name}</h3>
+              <h5>{guild.desc}</h5>
+            </div>
+            <div className="flex v-center nowrap">
+              <h4>{guild.numMembers}</h4>
+              <FontAwesomeIcon icon={FontAwesomeIcons.users} />
+            </div>
+          </div>
+          {guild.members.map((member) => (<div className="container member">
+            <h4 className="name">{member.name}</h4>
+            <p>Blooket: {member.blooketName}</p>
+            <div className="flex v-center nowrap">
+              <h4>{member.gold.toLocaleString()}</h4>
+              <img src="/src/assets/pop/gold.png" alt="Gold"></img>
+            </div>
+          </div>))}
+        </>
+      );
+    });
+  }, []);
+
+  return (
+    <main>
+      <div className="pop flex column v-center">
+        {state}
+      </div>
+    </main>
   );
 }
 

@@ -129,3 +129,9 @@ nav {
 #background-container.lunch {
   background-color: #ebebeb;
 }
+
+#background-container.pop {
+  background: url("./assets/backgrounds/pop_background_left.png") left repeat-y,
+    url("./assets/backgrounds/pop_background_right.png") right repeat-y,
+    #523b40;
+}
