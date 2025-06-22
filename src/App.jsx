@@ -1,6 +1,20 @@
+import { useState, useEffect } from "react";
+import { getTopLeaderboards } from "./supabase.js";
 import "./App.css";
 
 export function App() {
+	const [state, setState] = useState([]);
+	useEffect(() => {
+		getTopLeaderboards().then((leaderboards) => {
+			setState(leaderboards.map((leaderboard) => (
+				<div className="board-button-item flex between v-center" onClick={() => globalThis.location.assign(`/gamemodes/${leaderboard.gm_path}/${leaderboard.lb_path}`)}>
+					<h2>{leaderboard.title}</h2>
+					<p>Runs: {leaderboard.count}</p>
+				</div>
+			)));
+			console.log();
+		});
+	}, []);
 	return (
 		<>
       <header className="text-center">
@@ -61,6 +75,9 @@ export function App() {
             <div className="board-title">
               <h2>Most Popular</h2>
             </div>
+						<div className="board-contents scrollable">
+							{state}
+						</div>
           </div>
         </div>
       </main>

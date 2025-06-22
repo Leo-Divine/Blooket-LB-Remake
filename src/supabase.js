@@ -258,3 +258,11 @@ export async function submitRun(selected_leaderboard) {
     }
     alert("Your run has been submitted! \n Please wait until someone reviews it :Þ");
 }
+export async function getTopLeaderboards() {
+  const { data, error } = await supabase.from("most_popular").select();
+  if (error) {
+    console.error(error);
+    return;
+  }
+  return data;
+}

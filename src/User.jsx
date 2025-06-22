@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toTimeString, getBlookImage } from "./common.js";
-import { getAllGamemodes, getAllLeaderboards, getUser, getRunsFromUser, Authentication, updateBlooketStats, submitRun } from "./supabase.js";
+import { getAllLeaderboards, getUser, getRunsFromUser, Authentication, updateBlooketStats, submitRun } from "./supabase.js";
 
 export function Account() {
   let params = useParams();
