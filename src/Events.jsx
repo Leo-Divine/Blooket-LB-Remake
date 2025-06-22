@@ -192,6 +192,164 @@ export function PoPTeam() {
   );
 }
 
+export function CoC2021() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("coc_2021").then((leaderboard) => {
+      setState(leaderboard.map((player, index) => (
+        <div key={index} className="ranking-box flex between v-center">
+          <div className="flex v-center">
+            <p>{ordinalNumber(index + 1)}&nbsp;</p>
+            <h3>{player.name}</h3>
+          </div>
+          <p>10/24 {new Date(Date.parse(player.time)).toLocaleTimeString().slice(0, 8)}</p>
+        </div>
+      )));
+    });
+  }, []);
+
+  return (
+    <>
+      <header className="text-center">
+        <h1>Contest of Candy 2021</h1>
+      </header>
+      <main>
+        <div className="coc-2021 flex column v-center">
+          {state}
+        </div>
+      </main>
+    </>
+  );
+}
+
+export function PAC() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("pac").then((leaderboard) => {
+      const rankingElements = [];
+      const top3Elements = []
+      for (const [index, player] of leaderboard.entries()) {
+        if(index < 3) {
+          top3Elements.push(
+            <div key={index} className="ranking-box top-3 flex between nowrap">
+              <img src={index == 2 ? "/src/assets/charizard.webp" : "/src/assets/lugia.webp"} alt=""/>
+              <div>
+                <div className="text-box flex between">
+                  <p>Rank:</p>
+                  <p>{index + 1}</p>
+                </div>
+                <div className="text-box flex between">
+                  <p>Name:</p>
+                  <p>{player.name}</p>
+                </div>
+                <div className="text-box flex between">
+                  <p>Cards:</p>
+                  <p>{player.cards}</p>
+                </div>
+              </div>
+            </div>
+          );
+          continue;
+        }
+        rankingElements.push(
+          <div key={index} className="ranking-box flex between">
+            <div className="text-box flex between">
+              <p>Rank:</p>
+              <p>{index + 1}</p>
+            </div>
+            <div className="text-box flex between">
+              <p>Name:</p>
+              <p>{player.name}</p>
+            </div>
+            <div className="text-box flex between">
+              <p>Cards:</p>
+              <p>{player.cards}</p>
+            </div>
+          </div>
+        );
+      }
+      setState(
+        <>
+          <div className="flex h-center top-3">
+            {top3Elements}
+          </div>
+          {rankingElements}
+        </>
+      );
+    });
+  }, []);
+
+  return (
+    <main>
+      <div className="pac flex column v-center">
+        {state}
+      </div>
+    </main>
+  );
+}
+
+export function CoC2020() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("coc_2020").then((leaderboard) => {
+      setState(leaderboard.map((player, index) => (
+        <div key={index} className="ranking-box flex between v-center">
+          <div className="flex v-center">
+            <h2>&nbsp;{`${ordinalNumber(index + 1)} `}&nbsp;</h2>
+            <h3>{player.name}</h3>
+          </div>
+          <div className="flex v-center nowrap">
+            <h3>{player.candy}</h3>
+            <img src="/src/assets/candy.png" alt="Candy" />
+          </div>
+        </div>
+      )));
+    });
+  }, []);
+
+  return (
+    <main>
+      <div className="coc-2020 flex column v-center">
+        <div className="ranking-box header flex h-center">
+          <h1>Contest of Candy 2020</h1>
+        </div>
+        {state}
+      </div>
+    </main>
+  );
+}
+
+export function CoC2019() {
+  const [state, setState] = useState([]);
+  useEffect(() => {
+    getEventLeaderboard("coc_2019").then((leaderboard) => {
+      setState(leaderboard.map((player, index) => (
+        <div key={index} className="ranking-box flex between v-center">
+          <div className="flex v-center">
+            <h2>&nbsp;{`${ordinalNumber(index + 1)} `}&nbsp;</h2>
+            <h3>{player.name}</h3>
+          </div>
+          <div className="flex v-center nowrap">
+            <h3>{player.score}</h3>
+            <img src="/src/assets/candy.png" alt="Candy" />
+          </div>
+        </div>
+      )));
+    });
+  }, []);
+
+  return (
+    <main>
+      <div className="coc-2020 flex column v-center">
+        <div className="ranking-box header flex h-center">
+          <h1>Contest of Candy 2019</h1>
+        </div>
+        {state}
+      </div>
+    </main>
+  );
+}
+
 async function getEventLeaderboard(event) {
   const response = await fetch(`/data/${event}.json`);
   const JSON = await response.json();

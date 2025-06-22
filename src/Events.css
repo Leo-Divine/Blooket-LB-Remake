@@ -140,3 +140,117 @@ main .coc-2022 {
     grid-area: 3 / 1 / 4 / 3;
   }
 }
+
+/* CoC2021 */
+main .coc-2021 {
+  font-family: "Merriweather Sans", sans-serif;
+}
+.coc-2021 .ranking-box {
+  width: 90%;
+  border-top: solid 2px white;
+  margin-top: 10px;
+  height: 25px;
+}
+.coc-2021 h3 {
+  font-weight: 400;
+}
+.coc-2021 p {
+  color: lightgrey;
+}
+
+/* PAC */
+.pac.nav-link {
+  background-color: #588cd4;
+  border-radius: 50px;
+  font-size: 1.75em;
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+}
+.pac .ranking-box {
+  background-color: #588cd4;
+  width: 70%;
+  padding: 20px 15px;
+  margin: 10px;
+  border-radius: 4px;
+  min-width: 178px;
+  position: relative;
+}
+.pac .ranking-box:before {
+  background: none;
+  border-radius: 4px;
+  border: 4px solid #dedeff;
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  pointer-events: none;
+}
+.pac .ranking-box.top-3 {
+  width: 27vw;
+}
+.pac img {
+  width: 135px;
+  border-radius: 5px;
+  border: 4px solid #dedeff;
+}
+.pac .text-box {
+  background-color: #b4d4ec;
+  border-radius: 7px;
+  opacity: 0.9;
+  width: 205px;
+  color: black;
+  padding: 0px 3px;
+}
+.pac .ranking-box.top-3 > div {
+  width: 70%;
+}
+.pac .ranking-box.top-3 .text-box {
+  width: 95%;
+  margin: 5px;
+}
+@media screen and (width <= 913px) {
+  .pac .ranking-box {
+    width: 90%;
+  }
+  .pac .ranking-box.top-3 > div {
+    width: 100%;
+  }
+  .pac .ranking-box.top-3 {
+    width: 50vw;
+  }
+}
+@media screen and (width <= 768px) {
+  .pac .ranking-box {
+    flex-direction: column;
+    align-items: center;
+  }
+  .pac img {
+    margin-bottom: 10px;
+  }
+  .pac .text-box {
+    margin-bottom: 10px;
+    width: 70%;
+  }
+}
+
+/* CoC2020 + 2019 */
+.coc-2020 {
+  font-size: 1.55em;
+}
+.coc-2020 .ranking-box {
+  background-color: #1a1a1a;
+  box-shadow: 0px 0px 5px 3px chocolate;
+  width: 70%;
+  margin: 10px;
+  border-radius: 5px;
+  word-break: break-word;
+}
+.coc-2020 .ranking-box.header {
+  padding: 15px;
+}
+.coc-2020 img {
+  width: 40px;
+}

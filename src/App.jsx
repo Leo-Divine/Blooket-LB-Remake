@@ -35,23 +35,23 @@ export function App() {
                 <h2>L.U.N.C.H</h2>
                 <p>5-Mar-22 - 5-Mar-22</p>
               </div>
-              <div className="board-button-item flex v-center between">
+              <div className="board-button-item flex v-center between" onClick={() => globalThis.location.assign("/events/pop")}>
                 <h2>PoP</h2>
                 <p>11-Dec-21 - 12-Dec-21</p>
               </div>
-              <div className="board-button-item flex v-center between">
+              <div className="board-button-item flex v-center between" onClick={() => globalThis.location.assign("/events/coc2021")}>
                 <h2>CoC 2021</h2>
                 <p>24-Oct-21 - 24-Oct-21</p>
               </div>
-              <div className="board-button-item flex v-center between">
+              <div className="board-button-item flex v-center between" onClick={() => globalThis.location.assign("/events/pac")}>
                 <h2>PAC</h2>
                 <p>3-Aug-21 - 7-Aug-21</p>
               </div>
-              <div className="board-button-item flex v-center between">
+              <div className="board-button-item flex v-center between" onClick={() => globalThis.location.assign("/events/coc2020")}>
                 <h2>CoC 2020</h2>
                 <p>26-Oct-20 - 26-Oct-20</p>
               </div>
-              <div className="board-button-item flex v-center between">
+              <div className="board-button-item flex v-center between" onClick={() => globalThis.location.assign("/events/coc2019")}>
                 <h2>CoC 2019</h2>
                 <p>28-Oct-19 - 8-Nov-19</p>
               </div>

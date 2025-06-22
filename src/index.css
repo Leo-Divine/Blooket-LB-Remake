@@ -70,7 +70,7 @@ nav {
   z-index: 3;
 }
 
-#nav-bar.coc-2022 {
+#nav-bar.coc2022 {
   background-color: #2b2b2b;
   box-shadow: 0 0 0 10px #1b1b1b;
 }
@@ -85,6 +85,13 @@ nav {
 
 #nav-bar > a:hover {
   font-size: 1.25em;
+}
+
+nav.pac {
+  background-color: white;
+  height: 60px;
+  box-shadow: #cbcbcb 0px 0px 0px 3px;
+  justify-content: end;
 }
 
 @media screen and (width <= 768px) {
@@ -117,12 +124,12 @@ nav {
   opacity: 0.15;
 }
 
-#background-container.coc-2023 {
+#background-container.coc2023 {
   background-image: url("./assets/backgrounds/coc_2023.png");
   background-color: transparent;
 }
 
-#background-container.coc-2022 {
+#background-container.coc2022 {
   background-color: #373841;
 }
 
@@ -134,4 +141,16 @@ nav {
   background: url("./assets/backgrounds/pop_background_left.png") left repeat-y,
     url("./assets/backgrounds/pop_background_right.png") right repeat-y,
     #523b40;
+}
+
+#background-container.pac {
+  background-color: whitesmoke;
+}
+
+#background-container.coc2020, #background-container.coc2019 {
+  background-color: #292929;
+}
+
+#background-container.coc2021 {
+  background-color: #141414;
 }

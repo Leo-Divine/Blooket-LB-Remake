@@ -1,8 +1,9 @@
-import { faUsers, faReply, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faReply, faTrophy, faHouse } from "@fortawesome/free-solid-svg-icons";
 export const FontAwesomeIcons = {
   users: faUsers,
   reply: faReply,
   trophy: faTrophy,
+  house: faHouse,
 }
 
 import BElite from "./assets/B-Elite.png";
