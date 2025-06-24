@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcons } from "./common.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './events.css';
+import './Events.css';
 
 export function CoC2023() {
   const [state, setState] = useState([]);
