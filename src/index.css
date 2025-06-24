@@ -127,6 +127,7 @@ nav.pac {
 #background-container.coc2023 {
   background-image: url("./assets/backgrounds/coc_2023.png");
   background-color: transparent;
+  background-size: cover;
 }
 
 #background-container.coc2022 {
