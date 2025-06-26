@@ -52,7 +52,7 @@ export async function getLeaderboard(leaderboard_path) {
 }
 
 export async function getRunsFromLeaderboard(leaderboard) {
-    const { data, error } = await supabase.from("Accepted_Runs").select("*, user_data:NewUsers!Accepted_Runs_run_player_fkey ( user_name, user_blooket_stats->name, user_blooket_stats->blook ), verifier_data:NewUsers!Accepted_Runs_accepted_by_fkey ( user_name, user_blooket_stats->blook )").eq("run_leaderboard", leaderboard.id).order("run_score", { ascending: leaderboard.lb_score_type != "Score"});
+    const { data, error } = await supabase.from("Accepted_Runs").select("*, user_data:Users!Accepted_Runs_run_player_fkey ( user_name, user_blooket_stats->name, user_blooket_stats->blook ), verifier_data:Users!Accepted_Runs_accepted_by_fkey ( user_name, user_blooket_stats->blook )").eq("run_leaderboard", leaderboard.id).order("run_score", { ascending: leaderboard.lb_score_type != "Score"});
     if (error) {
       console.error(error);
       throw error;
@@ -61,7 +61,7 @@ export async function getRunsFromLeaderboard(leaderboard) {
 }
 
 export async function getAllUsers() {
-  const { data, error } = await supabase.from("NewUsers").select();
+  const { data, error } = await supabase.from("Users").select();
   if (error) {
     console.error(error);
     return;
@@ -70,20 +70,20 @@ export async function getAllUsers() {
 }
 
 export async function getAllUsersWithStat(stat_name) {
-  let { data, error } = await supabase.from("NewUsers").select().gt(`user_blooket_stats->${stat_name}`, 0).order(`user_blooket_stats->${stat_name}`, { ascending: false });
+  let { data, error } = await supabase.from("Users").select().gt(`user_blooket_stats->${stat_name}`, 0).order(`user_blooket_stats->${stat_name}`, { ascending: false });
 
   if (error) {
     console.error(error);
     throw error;
   }
   if (stat_name == "dateCreated") {
-    data = (await supabase.from("NewUsers").select().not(`user_blooket_stats->${stat_name}`, "is", null).order(`user_blooket_stats->${stat_name}`, { ascending: true })).data;
+    data = (await supabase.from("Users").select().not(`user_blooket_stats->${stat_name}`, "is", null).order(`user_blooket_stats->${stat_name}`, { ascending: true })).data;
   }
   return data;
 }
 
 export async function getUser(user_name) {
-  const { data, error } = await supabase.from("NewUsers").select().eq("user_name", user_name).limit(1).single();
+  const { data, error } = await supabase.from("Users").select().eq("user_name", user_name).limit(1).single();
   if (error) {
     console.error(error);
     return;
@@ -162,7 +162,7 @@ export const Authentication = {
     }
 
     const { data: { user } } = await supabase.auth.getUser();
-    const { error } = await supabase.from("NewUsers").insert({
+    const { error } = await supabase.from("Users").insert({
       user_name: user.user_metadata.user_name,
       user_id: user.id,
       created_at: user.created_at,
@@ -186,7 +186,7 @@ export async function updateBlooketStats(account_stats) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { error } = await supabase.from("NewUsers").update({ user_blooket_stats: account_stats, stats_last_updated: new Date().toJSON() }).eq("user_id", user.id);
+  const { error } = await supabase.from("Users").update({ user_blooket_stats: account_stats, stats_last_updated: new Date().toJSON() }).eq("user_id", user.id);
   if (error) {
     console.error(error);
     return;
