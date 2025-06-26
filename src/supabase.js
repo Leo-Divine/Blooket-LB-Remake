@@ -34,7 +34,7 @@ export async function getAllLeaderboards() {
 }
 
 export async function getLeaderboardsFromGamemode(gamemode_name) {
-  const { data, error } = await supabase.from("Categories").select().eq("lb_gamemode", gamemode_name);
+  const { data, error } = await supabase.from("Categories").select().eq("lb_gamemode", gamemode_name).order("id", { ascending: true });
   if (error) {
     console.error(error);
     throw error;

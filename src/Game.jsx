@@ -122,10 +122,24 @@ export function LeaderboardPage() {
       if(isStatLB) { upadteStatsLeaderboard(leaderboard_path); return; }
       getLeaderboard(leaderboard_path).then((leaderboard) => {
         getRunsFromLeaderboard(leaderboard).then((runs) => {
+          const infoElements = 
+          <>
+            <p>{leaderboard.lb_desc}</p>
+            {!leaderboard.lb_rules ? <></> : 
+              <>
+                <br/>
+                <p>Rules:</p>
+                <ul>
+                  {leaderboard.lb_rules.split(";").map((rule) => <li>{rule}</li>)}
+                </ul>
+                <br/>
+              </>
+            }
+            <p>Submit a run <a href={`/submission/${leaderboard.lb_path}`}>Here</a>!</p>
+          </>
+
           const leaderboardElements = [];
           runs.forEach((run, index) => {
-            console.log(run);
-
             leaderboardElements.push(
               <tr id={run.user_data.user_name} key={run.user_data.user_name} onClick={() => {setRun(<RunDetails run={run} leaderboard={leaderboard} />)}}>
                 <td>
@@ -148,7 +162,7 @@ export function LeaderboardPage() {
           });
           setBoard({
               header: leaderboard.lb_title_long,
-              desc: <><p>{leaderboard.lb_desc}</p><p>Submit a run <a href={`/submission/${leaderboard.lb_path}`}>Here</a>!</p></>,
+              desc: infoElements,
               type: leaderboard.lb_score_type,
               runs: leaderboardElements,
           });
@@ -254,7 +268,7 @@ function RunDetails(run) {
     <>
       <div className="flex nowrap column v-center">
         {run.run.run_video_link == "blastphemy" ? "" : <iframe src={run.run.run_video_link}></iframe>}
-        <div className="flex nowrap v-center" onClick={() => globalThis.location.assign(`/account/${run.run.user_data.user_name}`)}>
+        <div className="flex nowrap v-center" style={{cursor: "pointer"}} onClick={() => globalThis.location.assign(`/account/${run.run.user_data.user_name}`)}>
           <img className="blook-image" src={getBlookImage(run.run.user_data.blook)} alt={run.run.user_data.blook} />
           <h2 className={run.run.user_data.blook == "Elite" ? "rainbow" : ""}>{run.run.user_data.user_name}</h2>
         </div>
@@ -284,7 +298,7 @@ function StatDetails(player) {
   return (
     <>
       <div className="flex nowrap column v-center">
-        <div className="flex nowrap v-center" onClick={() => globalThis.location.assign(`/account/${player.player.user_name}`)}>
+        <div className="flex nowrap v-center" style={{cursor: "pointer"}} onClick={() => globalThis.location.assign(`/account/${player.player.user_name}`)}>
           <img className="blook-image" src={getBlookImage(player.player.user_blooket_stats.blook)} alt={player.player.user_blooket_stats.blook} />
           <h2 className={player.player.user_blooket_stats.blook == "Elite" ? "rainbow" : ""}>{player.player.user_name}</h2>
         </div>
