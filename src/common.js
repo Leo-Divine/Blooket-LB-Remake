@@ -46,6 +46,8 @@ import xIcon from "./assets/icons/x.png";
 import yetiIcon from "./assets/icons/yeti.png";
 import flappyIcon from "./assets/icons/flappy.png";
 import gemIcon from "./assets/icons/gem.png";
+import ExtrasLogo from "./assets/game_logos/Extras_logo.png";
+import StatsLogo from "./assets/game_logos/Stats_Logo.png";
 
 export const Icons = {
     CALENDAR: calendarIcon,
@@ -87,7 +89,7 @@ export const Icons = {
     WIZARD_BLOOK: wizardIcon,
     X: xIcon,
     YETI_BLOOK: yetiIcon,
-  };
+};
 
 export async function getUsers() {
   const { data, error } = await supabase.from("Users").select();
