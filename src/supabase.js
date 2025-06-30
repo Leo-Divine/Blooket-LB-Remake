@@ -229,6 +229,7 @@ export async function submitRun(selected_leaderboard) {
         run_score: Number(`${score_input.hours}${score_input.minutes.padStart(2, "0")}${score_input.seconds.padStart(2, "0")}${score_input.milliseconds.padStart(3, "0")}`),
         submitted_at: new Date().toJSON(),
         run_video_link: video_input,
+        user_email: user.email,
       }
     );
     if (error) {

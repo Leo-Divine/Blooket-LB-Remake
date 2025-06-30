@@ -385,7 +385,8 @@ export function SubmissionPage() {
                     <br/>
                     <h2>Enter your Video URL:</h2>
                     <input id="video-input" type="url" placeholder="URL Here!" className="inputs"></input>
-                    <br></br>
+                    <br/>
+                    <p>A quick reminder to take a look at the <a href="/rules" target="_blank">rules</a>!</p>
                     <button id="account-submit" className="inputs" type="submit" onClick={submitRun.bind(this, selected_leaderboard)}>
                       Submit
                     </button>
@@ -401,4 +402,43 @@ export function SubmissionPage() {
   }, []);
 
   return (<>{state}</>);
+}
+
+export function RulesPage() {
+  return (
+    <div style={{ color: "black" }}>
+      <main>
+        <h1>Blooket Leaderboards Rules</h1>
+        <p>Here are some general rules that apply to all leaderboards.</p>
+        <br/>
+        <h2>Recording Footage</h2>
+        <p>All runs of the game must be recorded to be reviewed by a verifier. To make sure all runs are not tampered with or use cheats when not visible, all runs must have a designated start and end time/screen. This is usually determined by gamemode and playing method.</p>
+        <p>Assuming the timing is not already specified:</p>
+        <ul>
+          <li>For solo games(Kingdom, Plushie, ToD, etc) that have a start button, the recording must either start at or before the start button is displayed.</li>
+          <li>For all hosted games the run doesn't have to show the host screen, but it should show the pregame lobby on the players screen.</li>
+          <li>Timing on default will end at the post game screen(the same one you get your tokens on). This may change based on the leaderboard.</li>
+        </ul>
+        <br/>
+        <p>Some leaderboards allow for segmented runs. This is defined as having multiple seperate videos that when put together will show all footage of a run. This is intended for leaderboards and gamemodes that are progressive such as Cafe and TD.</p>
+        <p>There are a few rules for this:</p>
+        <ul>
+          <li>In the provided footage, all rounds/days/anything must be present.</li>
+          <li>Each video provided must start at the save file selection screen. You will then choose your save file and proceed to play your run as normal.</li>
+        </ul>
+        <br/>
+        <p>Other things to note:</p>
+        <ul>
+          <li>Recorded footage may not be tampered with, such as cutting or splicing footage. Any runs found to have that will be rejected.</li>
+          <li>Runs accepted before 6-14-2025 are the only runs which do not require footage. I already verified them long ago.</li>
+        </ul>
+        <br/>
+        <h2>Glitches</h2>
+        <p>Every leaderboard does not allow glitches unless stated in the rules of the leaderboard.</p>
+        <br/>
+        <h2>Hacking</h2>
+        <p>I hope it's obvious that using blooket hacks is never allowed in any run of the game. Runs will be rejected if hacks are used at any time.</p>
+      </main>
+    </div>
+  );
 }

@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, BrowserRouter, RouterProvider, Routes, Route } from "react-router-dom";
 import { App, PrivacyPolicy } from "./App.jsx";
 import { GamemodePage, Gamemodes, LeaderboardPage } from "./Game.jsx";
-import { Account, AccountCreation, SignUp, SubmissionPage } from "./User.jsx";
+import { Account, AccountCreation, SignUp, SubmissionPage, RulesPage } from "./User.jsx";
 import { CoC2023, CoC2022, LUNCH, PoP, PoPTeam, CoC2021, PAC, CoC2020, CoC2019 } from './Events.jsx';
 import { FontAwesomeIcons } from "./common.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,6 +60,10 @@ const router = createBrowserRouter([
     element: <PrivacyPolicy />,
   },
   {
+    path: "/rules",
+    element: <RulesPage />,
+  },
+  {
     path: "/events/coc2023",
     element: <CoC2023 />,
   },
@@ -104,7 +108,7 @@ const router = createBrowserRouter([
 ]);
 
 function Background() {
-  if(globalThis.location.pathname === "/privacy-policy") {
+  if(globalThis.location.pathname === "/privacy-policy" || globalThis.location.pathname === "/rules") {
     return;
   }
   return (
