@@ -251,6 +251,7 @@ export async function submitRun(selected_leaderboard) {
         run_score: Number(score_input),
         submitted_at: new Date().toJSON(),
         run_video_link: video_input,
+        user_email: user.email,
       }
     );
     if (error) {
