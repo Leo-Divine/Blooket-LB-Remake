@@ -1,4 +1,3 @@
-import { ResetUserInfo } from "./User.jsx";
 import { useState, useEffect } from "react";
 import { getTopLeaderboards } from "./supabase.js";
 import "./App.css";
@@ -81,7 +80,6 @@ export function App() {
 						</div>
           </div>
         </div>
-				<ResetUserInfo/>
       </main>
     </>
 	);
