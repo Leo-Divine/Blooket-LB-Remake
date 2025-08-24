@@ -161,6 +161,10 @@ function Settings() {
             <h2>Settings</h2>
           </div>
           <div className="board-contents">
+            <button type="button" className="inputs" onClick={Authentication.resetUsername.bind(this)}>
+              Change Username
+            </button>
+            <br/>
             <button type="button" className="inputs" onClick={Authentication.userLogOut.bind(this)}>
               Logout
             </button>
@@ -320,6 +324,21 @@ export function AccountCreation() {
       </main>
     </>
   );
+}
+
+export function ResetUserInfo() {
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event == "PASSWORD_RECOVERY") {
+        const newPassword = prompt("What would you like your new password to be?");
+        const { data, error } = await supabase.auth.updateUser({
+          data: { password: newPassword }
+        });
+        if (data) alert("Password updated successfully!");
+        if (error) alert("There was an error updating your password.");
+      }
+    });
+  }, []);
 }
 
 export function SubmissionPage() {

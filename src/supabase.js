@@ -175,6 +175,30 @@ export const Authentication = {
     }
     await updateBlooketStats(account_stats);
     globalThis.location.assign("/");
+  },
+  resetUsername: async function resetUsername() {
+    const { data: { user } } = await supabase.auth.getUser();
+    const new_username = prompt("Please enter a new username:");
+
+    {
+      const { data, error } = await supabase.from("Users").select("user_name").eq("user_name", new_username).limit(1);
+      if(error) {
+        console.log(error);
+        return;
+      }
+      if(data.length > 0) {
+        alert("Username is already in use");
+        return;
+      }
+    }
+    const { error } = await supabase.auth.updateUser({ data: { user_name: new_username } });
+    const { error2 } = await supabase.from("Users").update({ user_name: new_username }).eq("user_id", user.id);
+    if(error || error2) {
+      console.log(error + error2);
+      return;
+    }
+    alert("Username changed successfully!");
+    globalThis.location.reload();
   }
 };
 
