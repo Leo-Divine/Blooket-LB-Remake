@@ -121,7 +121,29 @@ export function LeaderboardPage() {
     function updateLeaderboard(leaderboard_path, isStatLB) {
       if(isStatLB) { upadteStatsLeaderboard(leaderboard_path); return; }
       getLeaderboard(leaderboard_path).then((leaderboard) => {
+        
         getRunsFromLeaderboard(leaderboard).then((runs) => {
+          // Get the Best Run From Each Player
+          const uniquePlayerRuns = Object.values(runs.reduce((acc, run) => {
+            // Score Leaderboard
+            if (leaderboard.lb_score_type == "Score" && (
+              !acc[run.run_player] // Player Doesn't Exist
+              || run.run_score >= acc[run.run_player].run_score // New Score is Greater
+            )) {
+              acc[run.run_player] = run;
+            }
+
+            // Time Leaderboard
+            if (leaderboard.lb_score_type != "Score" && (
+              !acc[run.run_player] // Player Doesn't Exist
+              || run.run_score <= acc[run.run_player].run_score // New Score is Greater
+            )) {
+              acc[run.run_player] = run;
+            }
+
+            return acc;
+           }, {}));
+
           const infoElements = 
           <>
             <p>{leaderboard.lb_desc}</p>
@@ -139,7 +161,7 @@ export function LeaderboardPage() {
           </>
 
           const leaderboardElements = [];
-          runs.forEach((run, index) => {
+          uniquePlayerRuns.forEach((run, index) => {
             leaderboardElements.push(
               <tr id={run.user_data.user_name} key={run.user_data.user_name} onClick={() => {setRun(<RunDetails run={run} leaderboard={leaderboard} />)}}>
                 <td>

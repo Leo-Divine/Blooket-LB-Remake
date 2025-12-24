@@ -57,6 +57,7 @@ export async function getRunsFromLeaderboard(leaderboard) {
       console.error(error);
       throw error;
     }
+    console.log(data);
     return data;
 }
 
