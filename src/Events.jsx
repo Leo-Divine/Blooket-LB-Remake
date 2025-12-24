@@ -277,7 +277,7 @@ export function PoPTeam() {
             <p>Blooket: {member.blooketName}</p>
             <div className="flex v-center nowrap">
               <h4>{member.gold.toLocaleString()}</h4>
-              <img src="/src/assets/pop/gold.png" alt="Gold"></img>
+              <img src={popGoldIcon} alt="Gold"></img>
             </div>
           </div>))}
         </>
